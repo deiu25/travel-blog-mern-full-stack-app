@@ -14,7 +14,7 @@ import { Box } from "@mui/system";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
-const DiaryItem = () => {
+const DiaryItem = ({ title, description, image, location, date, id }) => {
   return (
     <Card
       sx={{
@@ -38,13 +38,14 @@ const DiaryItem = () => {
             {<EditLocationAltIcon />}
           </IconButton>
         }
-        title="Shrimp and Chorizo Paella"
-        subheader="September 14, 2016"
+        title={location}
+        header={location}
+        subheader={date}
       />
-      <img height="194" src="/sea.jpg" alt="sea" />
+      <img height="194" src={image} alt={title} />
       <CardContent>
         <Typography paddingBottom={1} variant="h6" color="text.secondary">
-          This impressive paella
+          {title}
         </Typography>
         <hr />
         <Box paddingTop={1} display="flex">
@@ -53,9 +54,7 @@ const DiaryItem = () => {
           </Typography>
 
           <Typography variant="body2" color="text.secondary">
-            This impressive paella is a perfect party dish and a fun meal to
-            cook together with your guests. Add 1 cup of frozen peas along with
-            the mussels, if you like.
+            {description}
           </Typography>
         </Box>
       </CardContent>
