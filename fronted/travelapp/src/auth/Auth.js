@@ -3,6 +3,7 @@ import { Box, Button, FormLabel, TextField, Typography } from "@mui/material";
 import { sendAuthRequest } from "../api-helpers/helpers";
 import { useDispatch } from "react-redux";
 import { authActions } from "../store";
+
 const Auth = () => {
   const dispatch = useDispatch();
   const [isSignup, setIsSignup] = useState(true);
