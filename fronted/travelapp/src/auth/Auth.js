@@ -1,10 +1,21 @@
 import React, { useState } from "react";
 import { Box, Button, FormLabel, TextField, Typography } from "@mui/material";
+import { sendAuthRequest } from "../api-helpers/helpers";
 const Auth = () => {
   const [isSignup, setIsSignup] = useState(true);
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(inputs);
+
+    if (isSignup) {
+      sendAuthRequest(true, inputs)
+        .then((data) => console.log(data))
+        .catch((err) => console.log(err));
+    } else {
+      sendAuthRequest(false, inputs)
+        .then((data) => console.log(data))
+        .catch((err) => console.log(err));
+    }
   };
   const [inputs, setInputs] = useState({ name: "", email: "", password: "" });
   const handleChange = (e) => {
