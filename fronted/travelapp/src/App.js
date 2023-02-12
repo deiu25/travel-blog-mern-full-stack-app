@@ -1,13 +1,13 @@
-import axios from "axios";
+import { useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 import Auth from "./auth/Auth";
 import Diaries from "./diaries/Diaries";
 import Header from "./header/Header";
 import Home from "./home/Home";
 
-axios.defaults.baseURL = "http://localhost:5000";
-
 function App() {
+  const isLoggedIn = useSelector((state) => state.isLoggedIn);
+  console.log(isLoggedIn);
   return (
     <div>
       <header>
