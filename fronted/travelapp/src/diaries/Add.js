@@ -1,6 +1,7 @@
 import { Box, Button, FormLabel, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import AddRoadIcon from "@mui/icons-material/AddRoad";
+import { addPost } from "../api-helpers/helpers";
 
 const Add = () => {
   const [inputs, setInputs] = useState({
@@ -21,6 +22,9 @@ const Add = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(inputs);
+    addPost(inputs)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
   };
   return (
     <Box display="flex" flexDirection={"column"} width="100%" height="100%">
