@@ -1,8 +1,27 @@
 import { Box, Button, FormLabel, TextField, Typography } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import AddRoadIcon from "@mui/icons-material/AddRoad";
 
 const Add = () => {
+  const [inputs, setInputs] = useState({
+    title: "",
+    description: "",
+    location: "",
+    imageUrl: "",
+    date: "",
+  });
+
+  const handleChange = (e) => {
+    setInputs((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(inputs);
+  };
   return (
     <Box display="flex" flexDirection={"column"} width="100%" height="100%">
       <Box display="flex" margin="auto" padding={2}>
@@ -17,7 +36,7 @@ const Add = () => {
           sx={{ fontSize: "40px", paddingLeft: 1, color: "lightcoral" }}
         />
       </Box>
-      <form>
+      <form onSubmit={handleSubmit}>
         <Box
           padding={3}
           display="flex"
@@ -26,16 +45,48 @@ const Add = () => {
           width="50%"
         >
           <FormLabel sx={{ fontFamily: "quicksand" }}>Title</FormLabel>
-          <TextField variant="standard" margin="normal" />
+          <TextField
+            onChange={handleChange}
+            name="title"
+            value={inputs.title}
+            variant="standard"
+            margin="normal"
+          />
           <FormLabel sx={{ fontFamily: "quicksand" }}>Location</FormLabel>
-          <TextField variant="standard" margin="normal" />
+          <TextField
+            onChange={handleChange}
+            name="location"
+            value={inputs.location}
+            variant="standard"
+            margin="normal"
+          />
           <FormLabel sx={{ fontFamily: "quicksand" }}>Image URL</FormLabel>
-          <TextField variant="standard" margin="normal" />
+          <TextField
+            onChange={handleChange}
+            name="imageUrl"
+            value={inputs.imageUrl}
+            variant="standard"
+            margin="normal"
+          />
           <FormLabel sx={{ fontFamily: "quicksand" }}>Date</FormLabel>
-          <TextField variant="standard" margin="normal" />
+          <TextField
+            onChange={handleChange}
+            type="date"
+            name="date"
+            value={inputs.date}
+            variant="standard"
+            margin="normal"
+          />
           <FormLabel sx={{ fontFamily: "quicksand" }}>Description</FormLabel>
-          <TextField variant="standard" margin="normal" />
+          <TextField
+            onChange={handleChange}
+            name="description"
+            value={inputs.description}
+            variant="standard"
+            margin="normal"
+          />
           <Button
+            type="submit"
             variant="contained"
             color="warning"
             sx={{ width: "40%", margin: "auto", mt: 2, borderRadius: 7 }}
