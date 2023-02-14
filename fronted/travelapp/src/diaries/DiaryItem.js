@@ -12,8 +12,16 @@ import EditLocationAltIcon from "@mui/icons-material/EditLocationAlt";
 import { Box } from "@mui/system";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { Link } from "react-router-dom";
 
-const DiaryItem = ({ title, description, image, location, date, id }) => {
+const DiaryItem = ({ title, description, image, location, date, id, user }) => {
+  const isLoggedInUser = () => {
+    if (localStorage.getItem("userId") === user) {
+      return true;
+    }
+    return false;
+  };
+
   return (
     <Card
       sx={{
@@ -57,14 +65,16 @@ const DiaryItem = ({ title, description, image, location, date, id }) => {
           </Typography>
         </Box>
       </CardContent>
-      <CardActions sx={{ marginLeft: "auto" }}>
-        <IconButton color="warning">
-          <EditIcon />
-        </IconButton>
-        <IconButton color="error">
-          <DeleteForeverIcon />
-        </IconButton>
-      </CardActions>
+      {isLoggedInUser() && (
+        <CardActions sx={{ marginLeft: "auto" }}>
+          <IconButton LinkComponent={Link} to={`/post/${id}`} color="warning">
+            <EditIcon />
+          </IconButton>
+          <IconButton color="error">
+            <DeleteForeverIcon />
+          </IconButton>
+        </CardActions>
+      )}
     </Card>
   );
 };

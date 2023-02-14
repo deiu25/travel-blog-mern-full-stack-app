@@ -45,3 +45,12 @@ export const addPost = async (data) => {
   const resData = await res.data;
   return resData;
 };
+
+export const getPostDetails = async (id) => {
+  const res = await axios.get(`/posts/${id}`).catch((err) => console.log(err));
+  if (res.status !== 200) {
+    return console.log("Unable to fetch diary");
+  }
+  const resData = await res.data;
+  return resData;
+};
