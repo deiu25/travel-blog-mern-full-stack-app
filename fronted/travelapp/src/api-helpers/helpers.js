@@ -54,3 +54,19 @@ export const getPostDetails = async (id) => {
   const resData = await res.data;
   return resData;
 };
+
+export const postUpdate = async (data, id) => {
+  const res = await axios
+    .put(`/posts/${id}`, {
+      title: data.title,
+      description: data.description,
+      location: data.location,
+      image: data.imageUrl,
+    })
+    .catch((err) => console.log(err));
+  if (res.status !== 200) {
+    return console.log("Unable to update");
+  }
+  const resData = await res.data;
+  return resData;
+};

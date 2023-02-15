@@ -90,7 +90,7 @@ export const getPostById = async (req, res) => {
 
 export const updatePost = async (req, res) => {
   const id = req.params.id;
-  const { title, description, location, date, image } = req.body;
+  const { title, description, location, image } = req.body;
 
   if (
     !title &&
@@ -99,7 +99,6 @@ export const updatePost = async (req, res) => {
     description.trim() === "" &&
     !location &&
     location.trim() === "" &&
-    !date &&
     !image &&
     image.trim() === ""
   ) {
@@ -112,7 +111,6 @@ export const updatePost = async (req, res) => {
       title,
       description,
       image,
-      date: new Date(`${date}`),
       location,
     });
   } catch (err) {
