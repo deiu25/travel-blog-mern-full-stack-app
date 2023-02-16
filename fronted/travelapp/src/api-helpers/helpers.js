@@ -70,3 +70,15 @@ export const postUpdate = async (data, id) => {
   const resData = await res.data;
   return resData;
 };
+
+export const postDelete = async (id) => {
+  const res = await axios
+    .delete(`/posts/${id}`)
+    .catch((err) => console.log(err));
+
+  if (res.status !== 200) {
+    return console.log("Unable to delete");
+  }
+  const resData = await res.data;
+  return resData;
+};
