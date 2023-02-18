@@ -1,15 +1,16 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
+import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import { getUserDetails } from "../api-helpers/helpers";
 import DiaryItem from "../diaries/DiaryItem";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { authActions } from "../store";
-
+import { useNavigate } from "react-router-dom";
 const Profile = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [user, setUser] = useState();
+
   useEffect(() => {
     getUserDetails()
       .then((data) => setUser(data.user))
@@ -21,18 +22,19 @@ const Profile = () => {
     localStorage.removeItem("userId");
     navigate("/");
   };
+
   return (
     <Box display="flex" flexDirection={"column"}>
-      ;
       {user && (
         <>
+          {" "}
           <Typography
             textAlign={"center"}
             variant="h3"
             fontFamily={"quicksand"}
             padding={2}
           >
-            {user.name} Profile
+            User Profile
           </Typography>
           <Typography fontFamily={"quicksand"} padding={1} textAlign="left">
             Name: {user.name}
@@ -64,6 +66,7 @@ const Profile = () => {
                 image={post.image}
                 location={post.location}
                 user={user._id}
+                name={user.name}
               />
             ))}
           </Box>{" "}

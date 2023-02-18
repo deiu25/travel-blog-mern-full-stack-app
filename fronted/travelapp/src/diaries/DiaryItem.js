@@ -19,7 +19,7 @@ import { postDelete } from "../api-helpers/helpers";
 
 const DiaryItem = ({ title, description, image, location, date, id, user }) => {
   const [open, setOpen] = useState(false);
-  const isLoggedInUser = () => {
+  const isLoogedInUser = () => {
     if (localStorage.getItem("userId") === user) {
       return true;
     }
@@ -37,7 +37,7 @@ const DiaryItem = ({ title, description, image, location, date, id, user }) => {
     <Card
       sx={{
         width: "50%",
-        height: "50vh",
+        height: "auto",
         margin: 1,
         padding: 1,
         display: "flex",
@@ -48,7 +48,7 @@ const DiaryItem = ({ title, description, image, location, date, id, user }) => {
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: "red" }} aria-label="recipe">
-            R
+            D
           </Avatar>
         }
         action={
@@ -60,6 +60,7 @@ const DiaryItem = ({ title, description, image, location, date, id, user }) => {
         header={location}
         subheader={date}
       />
+
       <img height="194" src={image} alt={title} />
       <CardContent>
         <Typography paddingBottom={1} variant="h6" color="text.secondary">
@@ -67,16 +68,21 @@ const DiaryItem = ({ title, description, image, location, date, id, user }) => {
         </Typography>
         <hr />
         <Box paddingTop={1} display="flex">
-          <Typography width="170px" fontWeight={"bold"} variant="div">
-            Deiu Andrei:
+          <Typography
+            width="auto"
+            sx={{ mr: 1 }}
+            fontWeight={"bold"}
+            variant="caption"
+          >
+            Description:
           </Typography>
-
           <Typography variant="body2" color="text.secondary">
             {description}
           </Typography>
         </Box>
       </CardContent>
-      {isLoggedInUser() && (
+
+      {isLoogedInUser() && (
         <CardActions sx={{ marginLeft: "auto" }}>
           <IconButton LinkComponent={Link} to={`/post/${id}`} color="warning">
             <EditIcon />
@@ -86,6 +92,7 @@ const DiaryItem = ({ title, description, image, location, date, id, user }) => {
           </IconButton>
         </CardActions>
       )}
+
       <Snackbar
         open={open}
         autoHideDuration={6000}

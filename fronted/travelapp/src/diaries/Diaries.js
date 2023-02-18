@@ -1,15 +1,16 @@
 import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
-import { getAllPost } from "../api-helpers/helpers";
+import { getAllPosts } from "../api-helpers/helpers";
 import DiaryItem from "./DiaryItem";
 
 const Diaries = () => {
   const [posts, setPosts] = useState();
   useEffect(() => {
-    getAllPost()
+    getAllPosts()
       .then((data) => setPosts(data?.posts))
       .catch((err) => console.log(err));
   }, []);
+
   return (
     <Box
       display="flex"

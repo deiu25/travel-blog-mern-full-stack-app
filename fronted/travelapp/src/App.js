@@ -1,4 +1,5 @@
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 import Auth from "./auth/Auth";
 import Add from "./diaries/Add";
@@ -7,10 +8,19 @@ import DiaryUpdate from "./diaries/DiaryUpdate";
 import Header from "./header/Header";
 import Home from "./home/Home";
 import Profile from "./profile/Profile";
+import { authActions } from "./store";
 
 function App() {
+  const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.isLoggedIn);
   console.log(isLoggedIn);
+
+  useEffect(() => {
+    if (localStorage.getItem("userId")) {
+      dispatch(authActions.login());
+    }
+  }, [localStorage]);
+
   return (
     <div>
       <header>

@@ -23,7 +23,7 @@ const Add = () => {
 
   const onResRecived = (data) => {
     console.log(data);
-    navigate("/");
+    navigate("/diaries");
   };
 
   const handleSubmit = (e) => {
