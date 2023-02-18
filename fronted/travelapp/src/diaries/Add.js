@@ -2,8 +2,10 @@ import { Box, Button, FormLabel, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import AddRoadIcon from "@mui/icons-material/AddRoad";
 import { addPost } from "../api-helpers/helpers";
+import { useNavigate } from "react-router-dom";
 
 const Add = () => {
+  const navigate = useNavigate();
   const [inputs, setInputs] = useState({
     title: "",
     description: "",
@@ -19,11 +21,16 @@ const Add = () => {
     }));
   };
 
+  const onResRecived = (data) => {
+    console.log(data);
+    navigate("/");
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(inputs);
     addPost(inputs)
-      .then((res) => console.log(res))
+      .then(onResRecived)
       .catch((err) => console.log(err));
   };
   return (
