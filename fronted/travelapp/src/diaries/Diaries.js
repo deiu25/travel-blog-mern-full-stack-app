@@ -14,10 +14,12 @@ const Diaries = () => {
   return (
     <Box
       display="flex"
-      flexDirection={"column"}
-      padding={3}
+      flexDirection={"row"}
+      flexWrap={"wrap"}
       justifyContent="center"
-      alignItems={"center"}
+      alignItems={"stretch"}
+      alignContent="center"
+      padding={3}
     >
       {" "}
       {posts &&

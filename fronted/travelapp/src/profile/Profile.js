@@ -52,9 +52,12 @@ const Profile = () => {
           </Button>
           <Box
             display="flex"
-            flexDirection={"column"}
+            flexDirection={"row"}
+            flexWrap={"wrap"}
             justifyContent="center"
-            alignItems={"center"}
+            alignItems={"stretch"}
+            alignContent="center"
+            padding={3}
           >
             {user.posts.map((post, index) => (
               <DiaryItem
