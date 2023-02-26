@@ -27,7 +27,12 @@ const Home = () => {
           SHARE YOUR TRAVEL DIARIES WITH US
         </Typography>
         <Box margin="auto">
-          <Button variant="outlined" sx={{ mr: 2 }}>
+          <Button
+            LinkComponent={Link}
+            to="/add"
+            variant="outlined"
+            sx={{ mr: 2 }}
+          >
             Share Your Story
           </Button>
           <Button

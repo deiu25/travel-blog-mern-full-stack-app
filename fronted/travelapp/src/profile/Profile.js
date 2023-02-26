@@ -12,7 +12,7 @@ const Profile = () => {
   const [user, setUser] = useState();
   useEffect(() => {
     getUserDetails()
-      .then((data) => setUser(data.user))
+      .then((data) => setUser(data?.user))
       .catch((err) => console.log(err));
   }, []);
 
@@ -63,10 +63,11 @@ const Profile = () => {
                 title={post.title}
                 date={post.date}
                 description={post.description}
-                id={post.id}
+                id={post._id}
                 image={post.image}
                 location={post.location}
-                user={user._id}
+                user={post.user}
+                name={user.name}
               />
             ))}
           </Box>{" "}

@@ -45,6 +45,7 @@ const DiaryItem = ({ title, description, image, location, date, id, user }) => {
         boxShadow: "5px 5px 10px #ccc",
       }}
     >
+      <img max-width="100%" height="auto" src={image} alt={title} />
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: "red" }} aria-label="recipe">
@@ -60,7 +61,7 @@ const DiaryItem = ({ title, description, image, location, date, id, user }) => {
         header={location}
         subheader={date}
       />
-      <img height="194" src={image} alt={title} />
+
       <CardContent>
         <Typography paddingBottom={1} variant="h6" color="text.secondary">
           {title}
@@ -68,7 +69,7 @@ const DiaryItem = ({ title, description, image, location, date, id, user }) => {
         <hr />
         <Box paddingTop={1} display="flex">
           <Typography width="170px" fontWeight={"bold"} variant="div">
-            Deiu Andrei:
+            Description:
           </Typography>
 
           <Typography variant="body2" color="text.secondary">
