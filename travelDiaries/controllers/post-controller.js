@@ -1,20 +1,21 @@
-import mongoose from "mongoose";
+import mongoose, { mongo, startSession } from "mongoose";
 import Post from "../models/Post";
 import User from "../models/User";
 
 export const getAllPosts = async (req, res) => {
   let posts;
   try {
-    posts = await Post.find();
+    posts = await Post.find().populate("user");
   } catch (err) {
     return console.log(err);
   }
+
   if (!posts) {
     return res.status(500).json({ message: "Unexpected Error Occurred" });
   }
+
   return res.status(200).json({ posts });
 };
-
 export const addPost = async (req, res) => {
   const { title, description, location, date, image, user } = req.body;
 
@@ -38,7 +39,7 @@ export const addPost = async (req, res) => {
   try {
     existingUser = await User.findById(user);
   } catch (err) {
-    console.log(err);
+    return console.log(err);
   }
 
   if (!existingUser) {
@@ -58,9 +59,7 @@ export const addPost = async (req, res) => {
     });
 
     const session = await mongoose.startSession();
-
     session.startTransaction();
-
     existingUser.posts.push(post);
     await existingUser.save({ session });
     post = await post.save({ session });
@@ -77,7 +76,9 @@ export const addPost = async (req, res) => {
 
 export const getPostById = async (req, res) => {
   const id = req.params.id;
+
   let post;
+
   try {
     post = await Post.findById(id);
   } catch (err) {
@@ -136,6 +137,8 @@ export const deletePost = async (req, res) => {
     post = await Post.findByIdAndRemove(id);
     session.commitTransaction();
   } catch (err) {
+    // return console.log(err);
+
     if (!post) {
       return res.status(500).json({ message: "Unable to delete" });
     }

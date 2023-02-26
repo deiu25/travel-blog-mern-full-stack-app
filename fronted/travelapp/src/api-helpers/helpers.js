@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const getAllPost = async () => {
+export const getAllPosts = async () => {
   const res = await axios.get("/posts");
   if (res.status !== 200) {
     return console.log("Some error occured");

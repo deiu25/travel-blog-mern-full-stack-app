@@ -11,6 +11,7 @@ import Profile from "./profile/Profile";
 import { authActions } from "./store";
 
 function App() {
+  const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.isLoggedIn);
   console.log(isLoggedIn);
 
@@ -20,6 +21,7 @@ function App() {
       dispatch1(authActions.login());
     }
   }, [dispatch1]);
+
 
   return (
     <div>
