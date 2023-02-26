@@ -3,8 +3,10 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getPostDetails, postUpdate } from "../api-helpers/helpers";
 import AddRoadIcon from "@mui/icons-material/AddRoad";
+import { useNavigate } from "react-router-dom";
 
 const DiaryUpdate = () => {
+  const navigate = useNavigate();
   const [post, setPost] = useState();
   const [inputs, setInputs] = useState({
     title: "",
@@ -36,11 +38,16 @@ const DiaryUpdate = () => {
     }));
   };
 
+  const onResRecived = (data) => {
+    console.log(data);
+    navigate("/diaries");
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(inputs);
     postUpdate(inputs, id)
-      .then((data) => console.log(data))
+      .then(onResRecived)
       .catch((err) => console.log(err));
   };
   return (
