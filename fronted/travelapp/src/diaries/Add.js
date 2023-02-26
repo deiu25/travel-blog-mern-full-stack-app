@@ -20,11 +20,14 @@ const Add = () => {
   };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   const onResRecived = (data) => {
     console.log(data);
     navigate("/diaries");
   };
 
+=======
+>>>>>>> parent of 88ce86a (after login change route to Home, and after add a dierie too)
 =======
 >>>>>>> parent of 88ce86a (after login change route to Home, and after add a dierie too)
   const handleSubmit = (e) => {
