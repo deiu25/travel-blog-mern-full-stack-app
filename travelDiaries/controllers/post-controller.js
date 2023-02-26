@@ -136,11 +136,11 @@ export const deletePost = async (req, res) => {
     post = await Post.findByIdAndRemove(id);
     session.commitTransaction();
   } catch (err) {
-    return console.log(err);
-  }
-  if (!post) {
-    return res.status(500).json({ message: "Unable to delete" });
-  }
+    // return console.log(err);
 
-  return res.status(200).json({ message: "Deleted Successfully" });
+    if (!post) {
+      return res.status(500).json({ message: "Unable to delete" });
+    }
+    return res.status(200).json({ message: "Deleted Successfully" });
+  }
 };

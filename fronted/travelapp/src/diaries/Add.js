@@ -2,10 +2,8 @@ import { Box, Button, FormLabel, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import AddRoadIcon from "@mui/icons-material/AddRoad";
 import { addPost } from "../api-helpers/helpers";
-import { useNavigate } from "react-router-dom";
 
 const Add = () => {
-  const navigate = useNavigate();
   const [inputs, setInputs] = useState({
     title: "",
     description: "",
@@ -21,16 +19,19 @@ const Add = () => {
     }));
   };
 
+<<<<<<< HEAD
   const onResRecived = (data) => {
     console.log(data);
     navigate("/diaries");
   };
 
+=======
+>>>>>>> parent of 88ce86a (after login change route to Home, and after add a dierie too)
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(inputs);
     addPost(inputs)
-      .then(onResRecived)
+      .then((res) => console.log(res))
       .catch((err) => console.log(err));
   };
   return (

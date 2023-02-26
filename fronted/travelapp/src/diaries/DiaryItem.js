@@ -19,7 +19,7 @@ import { postDelete } from "../api-helpers/helpers";
 
 const DiaryItem = ({ title, description, image, location, date, id, user }) => {
   const [open, setOpen] = useState(false);
-  const isLoogedInUser = () => {
+  const isLoggedInUser = () => {
     if (localStorage.getItem("userId") === user) {
       return true;
     }
@@ -37,7 +37,7 @@ const DiaryItem = ({ title, description, image, location, date, id, user }) => {
     <Card
       sx={{
         maxWidth: "13%",
-        height: "40vh",
+        height: "auto",
         margin: 1.5,
         padding: 1,
         display: "flex",
@@ -82,7 +82,7 @@ const DiaryItem = ({ title, description, image, location, date, id, user }) => {
         </Box>
       </CardContent>
 
-      {isLoogedInUser() && (
+      {isLoggedInUser() && (
         <CardActions sx={{ marginLeft: "auto" }}>
           <IconButton LinkComponent={Link} to={`/post/${id}`} color="warning">
             <EditIcon />

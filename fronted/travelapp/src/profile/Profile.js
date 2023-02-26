@@ -34,7 +34,7 @@ const Profile = () => {
             fontFamily={"quicksand"}
             padding={2}
           >
-            User Profile
+            {user.name} Profile
           </Typography>
           <Typography fontFamily={"quicksand"} padding={1} textAlign="left">
             Name: {user.name}
