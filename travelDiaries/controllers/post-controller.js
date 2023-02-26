@@ -27,6 +27,7 @@ export const addPost = async (req, res) => {
     !location &&
     location.trim() === "" &&
     !date &&
+    date.trim() === "" &&
     !user &&
     !image &&
     image.trim() === ""

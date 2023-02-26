@@ -45,10 +45,11 @@ const DiaryItem = ({ title, description, image, location, date, id, user }) => {
         boxShadow: "5px 5px 10px #ccc",
       }}
     >
+      <img max-width="100%" height="auto" src={image} alt={title} />
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: "red" }} aria-label="recipe">
-            D
+            R
           </Avatar>
         }
         action={
@@ -61,27 +62,21 @@ const DiaryItem = ({ title, description, image, location, date, id, user }) => {
         subheader={date}
       />
 
-      <img height="194" src={image} alt={title} />
       <CardContent>
         <Typography paddingBottom={1} variant="h6" color="text.secondary">
           {title}
         </Typography>
         <hr />
         <Box paddingTop={1} display="flex">
-          <Typography
-            width="auto"
-            sx={{ mr: 1 }}
-            fontWeight={"bold"}
-            variant="caption"
-          >
+          <Typography width="170px" fontWeight={"bold"} variant="div">
             Description:
           </Typography>
+
           <Typography variant="body2" color="text.secondary">
             {description}
           </Typography>
         </Box>
       </CardContent>
-
       {isLoggedInUser() && (
         <CardActions sx={{ marginLeft: "auto" }}>
           <IconButton LinkComponent={Link} to={`/post/${id}`} color="warning">
@@ -92,7 +87,6 @@ const DiaryItem = ({ title, description, image, location, date, id, user }) => {
           </IconButton>
         </CardActions>
       )}
-
       <Snackbar
         open={open}
         autoHideDuration={6000}

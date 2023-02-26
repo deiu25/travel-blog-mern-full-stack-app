@@ -28,10 +28,10 @@ const Home = () => {
         </Typography>
         <Box margin="auto">
           <Button
-            variant="outlined"
-            sx={{ mr: 2 }}
             LinkComponent={Link}
             to="/add"
+            variant="outlined"
+            sx={{ mr: 2 }}
           >
             Share Your Story
           </Button>

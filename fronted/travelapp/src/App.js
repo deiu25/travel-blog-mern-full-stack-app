@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 import Auth from "./auth/Auth";
@@ -15,11 +15,13 @@ function App() {
   const isLoggedIn = useSelector((state) => state.isLoggedIn);
   console.log(isLoggedIn);
 
+  const dispatch1 = useCallback(useDispatch(), []);
   useEffect(() => {
     if (localStorage.getItem("userId")) {
-      dispatch(authActions.login());
+      dispatch1(authActions.login());
     }
-  }, [localStorage]);
+  }, [dispatch1]);
+
 
   return (
     <div>
@@ -31,10 +33,15 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/diaries" element={<Diaries />} />
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/add" element={<Add />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/post/:id" element={<DiaryUpdate />} />
+          <Route path="/login" element={<Auth />} />
+          {isLoggedIn && (
+            <>
+              {" "}
+              <Route path="/add" element={<Add />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/post/:id" element={<DiaryUpdate />} />
+            </>
+          )}
         </Routes>
       </section>
     </div>

@@ -4,7 +4,7 @@ import ModeOfTravelIcon from "@mui/icons-material/ModeOfTravel";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-const linksArr = ["home", "diaries", "auth"];
+const linksArr = ["home", "diaries", "login"];
 const isLoggedInLinks = ["home", "diaries", "add", "profile"];
 
 const Header = () => {
