@@ -16,8 +16,7 @@ const Diaries = () => {
       flexDirection={"row"}
       flexWrap={"wrap"}
       justifyContent="center"
-      alignItems={"stretch"}
-      alignContent="center"
+      alignContent={"space-between"}
       padding={3}
     >
       {" "}

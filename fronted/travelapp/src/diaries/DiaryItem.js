@@ -36,7 +36,7 @@ const DiaryItem = ({ title, description, image, location, date, id, user }) => {
   return (
     <Card
       sx={{
-        maxWidth: "13%",
+        maxWidth: { sm: "auto", md: "13%" },
         height: "auto",
         margin: 1.5,
         padding: 1,

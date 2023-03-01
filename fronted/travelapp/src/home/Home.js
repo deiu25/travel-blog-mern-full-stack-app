@@ -26,21 +26,19 @@ const Home = () => {
         >
           SHARE YOUR TRAVEL DIARIES WITH US
         </Typography>
-        <Box margin="auto">
-          <Button
-            LinkComponent={Link}
-            to="/add"
-            variant="outlined"
-            sx={{ mr: 2 }}
-          >
+        <Box
+          margin="auto"
+          display="flex"
+          flexDirection={"row"}
+          flexWrap={"wrap"}
+          justifyContent="center"
+          alignItems={"stretch"}
+          gap={(2, 1)}
+        >
+          <Button LinkComponent={Link} to="/add" variant="outlined">
             Share Your Story
           </Button>
-          <Button
-            LinkComponent={Link}
-            to="/diaries"
-            variant="contained"
-            sx={{ ml: 2 }}
-          >
+          <Button LinkComponent={Link} to="/diaries" variant="contained">
             View Diaries
           </Button>
         </Box>
