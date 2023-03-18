@@ -20,7 +20,7 @@ mongoose
     `mongodb+srv://admin:${process.env.MONGODB_PASSWORD}@cluster0.vuiorgi.mongodb.net/?retryWrites=true&w=majority`
   )
   .then(() =>
-    app.listen(5000, () =>
+    app.listen(process.env.PORT || 5000, () =>
       console.log("Connection Succesfull Listening to localhost Port 5000")
     )
   )
