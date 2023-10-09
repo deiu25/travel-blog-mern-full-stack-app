@@ -25,6 +25,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { getLoginStatus, getUser, selectIsLoggedIn, selectUser } from './auth/redux/features/auth/authSlice';
 
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import DiaryDetail from "./diaries/diariesDetails/DiaryDetail";
+
 
 axios.defaults.withCredentials = true;
 
@@ -54,6 +56,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/diaries" element={<Diaries />} />
+          <Route path="/post/:postId" element={<DiaryDetail />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/forgot" element={<Forgot />} />
             <Route path="/resetPassword/:resetToken" element={<Reset />} />

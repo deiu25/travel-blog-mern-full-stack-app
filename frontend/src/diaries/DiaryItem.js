@@ -46,7 +46,7 @@ const DiaryItem = ({
 
       <div className="content">
         <span className="price">
-          <a href="">Show</a>
+          <Link to={`/post/${id}`}>Show</Link>
         </span>
 
         <ul>
@@ -58,7 +58,11 @@ const DiaryItem = ({
             <CardActions>
               {isLoogedInUser() && (
                 <>
-                  <IconButton component={Link} to={`/post/${id}`} color="warning">
+                  <IconButton
+                    component={Link}
+                    to={`/post/${id}`}
+                    color="warning"
+                  >
                     <ModeEditOutlineIcon />
                   </IconButton>
                   <IconButton onClick={handleDelete} color="error">
