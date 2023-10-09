@@ -1,11 +1,11 @@
 .card{
     position: relative;
-    width: 320px;
+    width: 360px;
     height: 400px;
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    margin: 5vh 3vh;
+    margin: 5vh 4vh;
 }
 
 .card .imgBx{

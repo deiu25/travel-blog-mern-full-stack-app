@@ -48,7 +48,6 @@ const DiaryItem = ({
         <span className="price">
           <Link to={`/post/${id}`}>Show</Link>
         </span>
-
         <ul>
           <li>
             <b>{title}</b>
@@ -60,7 +59,7 @@ const DiaryItem = ({
                 <>
                   <IconButton
                     component={Link}
-                    to={`/post/${id}`}
+                    to={`/edit/${id}`}
                     color="warning"
                   >
                     <ModeEditOutlineIcon />
