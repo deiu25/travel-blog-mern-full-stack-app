@@ -42,12 +42,14 @@ const DiaryUpdate = () => {
       .catch((err) => console.log(err));
   };
   return (
-    <Box display="flex" flexDirection={"column"} width="100%" height="100%" sx={{ backgroundColor: "white" }}>
-      <Box display="flex" margin="auto" padding={2}>
+    <Box display="flex" flexDirection={"column"} width="100%" height="100vh" sx={{ backgroundColor: "white" }}>
+      <Box display="flex" margin="auto" paddingTop={10}>
         <Typography
           fontWeight={"bold"}
           variant="h4"
           fontFamily={"dancing script"}
+          sx={{
+            color: "#333"}}
         >
           Add Your Travel Diary
         </Typography>
@@ -60,7 +62,7 @@ const DiaryUpdate = () => {
           <Box
             padding={3}
             display="flex"
-            width="80%"
+            width="60%"
             margin="auto"
             flexDirection={"column"}
           >

@@ -1,23 +1,28 @@
-import { Alert, CardActions, IconButton, Snackbar } from "@mui/material";
+import {
+  Alert,
+  CardActions,
+  IconButton,
+  Snackbar,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Button,
+} from "@mui/material";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import TitleIcon from "@mui/icons-material/Title"; 
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 
 import "./DiaryCard.css";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { postDelete } from "../api-helpers/helpers";
 
-const DiaryItem = ({
-  title,
-  description,
-  image,
-  location,
-  date,
-  id,
-  user,
-  onPostDelete,
-}) => {
+const DiaryItem = ({ title, image, location, id, user, onPostDelete }) => {
   const [open, setOpen] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false); // Dialog state
 
   const isLoogedInUser = () => {
     const userIdFromStorage = localStorage.getItem("userId");
@@ -28,6 +33,14 @@ const DiaryItem = ({
     return false;
   };
 
+  const handleOpenConfirm = () => {
+    setConfirmOpen(true);
+  };
+
+  const handleCloseConfirm = () => {
+    setConfirmOpen(false);
+  };
+
   const handleDelete = () => {
     postDelete(id)
       .then((data) => {
@@ -36,6 +49,7 @@ const DiaryItem = ({
       })
       .catch((err) => console.log(err));
     setOpen(true);
+    setConfirmOpen(false);
   };
 
   return (
@@ -48,11 +62,13 @@ const DiaryItem = ({
         <span className="price">
           <Link to={`/post/${id}`}>Show</Link>
         </span>
-        <ul>
-          <li>
-            <b>{title}</b>
+        <ul className="text">
+        <li>
+            <TitleIcon /> <b>{title}</b>  
           </li>
-          <li>{location}</li>
+          <li>
+            <LocationOnIcon /> {location}  
+          </li>
           <li>
             <CardActions>
               {isLoogedInUser() && (
@@ -64,7 +80,7 @@ const DiaryItem = ({
                   >
                     <ModeEditOutlineIcon />
                   </IconButton>
-                  <IconButton onClick={handleDelete} color="error">
+                  <IconButton onClick={handleOpenConfirm} color="error">
                     <DeleteForeverIcon />
                   </IconButton>
                 </>
@@ -84,6 +100,21 @@ const DiaryItem = ({
               </Alert>
             </Snackbar>
           </li>
+
+          <Dialog open={confirmOpen} onClose={handleCloseConfirm}>
+            <DialogTitle>{"Confirm Delete"}</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                Are you sure you want to delete this post?
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleCloseConfirm}>Cancel</Button>
+              <Button onClick={handleDelete} color="error">
+                Delete
+              </Button>
+            </DialogActions>
+          </Dialog>
         </ul>
       </div>
     </div>
