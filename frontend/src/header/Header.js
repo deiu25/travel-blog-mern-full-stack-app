@@ -13,7 +13,7 @@ const Header = () => {
   const [value, setValue] = useState(0);
   
   return (
-    <AppBar sx={{ bgcolor: "transparent" }}>
+    <AppBar sx={{ bgcolor: "white" }}>
       <Toolbar>
         <ModeOfTravelIcon sx={{ color: "black" }} />
         <Typography

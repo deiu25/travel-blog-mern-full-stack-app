@@ -58,16 +58,30 @@ const Home = () => {
               <Button
                 LinkComponent={Link}
                 to="/add"
-                variant="contained"
-                sx={{ mr: 2 }}
+                variant="outlined"
+                sx={{
+                  mr: 2,
+                  color: "white",
+                  "&:hover": {
+                    color: "white",
+                    backgroundColor: "rgba(0, 0, 0, 0.1)",
+                  },
+                }}
               >
                 Share Your Story
               </Button>
               <Button
                 LinkComponent={Link}
                 to="/diaries"
-                variant="contained"
-                sx={{ ml: 2 }}
+                variant="outlined"
+                sx={{
+                  ml: 2,
+                  color: "white",
+                  "&:hover": {
+                    color: "white",
+                    backgroundColor: "rgba(0, 0, 0, 0.1)",
+                  },
+                }}
               >
                 View Diaries
               </Button>

@@ -14,6 +14,7 @@ import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import TitleIcon from "@mui/icons-material/Title"; 
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 
 import "./DiaryCard.css";
 import React, { useState } from "react";
@@ -22,7 +23,7 @@ import { postDelete } from "../api-helpers/helpers";
 
 const DiaryItem = ({ title, image, location, id, user, onPostDelete }) => {
   const [open, setOpen] = useState(false);
-  const [confirmOpen, setConfirmOpen] = useState(false); // Dialog state
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   const isLoogedInUser = () => {
     const userIdFromStorage = localStorage.getItem("userId");
@@ -60,9 +61,9 @@ const DiaryItem = ({ title, image, location, id, user, onPostDelete }) => {
 
       <div className="content">
         <span className="price">
-          <Link to={`/post/${id}`}>Show</Link>
+          <Link to={`/post/${id}`}><TravelExploreIcon fontSize="medium" /></Link>
         </span>
-        <ul className="text">
+        <ul className="text diary-card-ul">
         <li>
             <TitleIcon /> <b>{title}</b>  
           </li>

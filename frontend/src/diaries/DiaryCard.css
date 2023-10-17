@@ -6,6 +6,7 @@
     justify-content: space-between;
     flex-direction: column;
     margin: 5vh 4vh;
+    border: none;
 }
 
 .card .imgBx{
@@ -56,12 +57,12 @@
 }
 
 .card .content ul{
-    padding: 0 20px;
     color: #fff;
     font-size: 14px;
     padding-bottom: 5px;
     list-style: none;
     margin-top: 4px;
+    overflow: auto;
 }
 
 .card .content p{
@@ -120,4 +121,20 @@
     background: transparent;
     border-radius: 50%;
     box-shadow: -10px 10px 0 #344e41;
+}
+
+@media screen and (max-width: 768px) {
+    .diary-card-ul {
+        position: static; 
+        top: auto;
+        left: auto;
+        width: auto;
+        height: auto;
+        background-color: transparent;
+        display: block; 
+        align-items: initial;
+        justify-content: initial;
+        opacity: 1;
+        z-index: auto;
+    } 
 }
