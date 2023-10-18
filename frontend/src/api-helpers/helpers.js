@@ -1,5 +1,27 @@
 import api from "./api";
 
+export const addPost = async (formData) => {
+  console.log('formData:', formData); 
+  try {
+    const res = await api.post("/posts/", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    console.log('Răspuns de la server:', res);
+
+    if (res.status !== 201) {
+      console.error("A apărut o eroare: starea răspunsului nu este 201");
+      return null;
+    }
+
+    return res.data.post;
+  } catch (err) {
+    console.error("A apărut o eroare în timpul adăugării postării:", err);
+    return null;
+  }
+};
+
 export const getAllPosts = async () => {
   const res = await api.get("/posts");
   if (res.status !== 200) {
@@ -8,42 +30,6 @@ export const getAllPosts = async () => {
 
   const data = res.data;
   return data;
-};
-
-export const sendAuthRequest = async (signup, data) => {
-  const res = api
-    .post(`/user/${signup ? "signup" : "login"}/`, {
-      name: data.name ? data.name : "",
-      email: data.email,
-      password: data.password,
-    })
-    .catch((err) => console.log(err));
-
-  if (res.status !== 200 && res.status !== 201) {
-    return console.log("Unable to Authenticate");
-  }
-  const resData = await res.data;
-  return resData;
-};
-
-export const addPost = async (data) => {
-  const res = await api
-    .post("/posts/", {
-      title: data.title,
-      description: data.description,
-      location: data.location,
-      image: data.imageUrl,
-      date: data.date,
-      user: localStorage.getItem("userId"),
-    })
-    .catch((err) => console.log(err));
-
-  if (res.status !== 201) {
-    return console.log("Error Occurred");
-  }
-
-  const resData = await res.data;
-  return resData;
 };
 
 export const getPostDetails = async (id) => {
@@ -81,18 +67,6 @@ export const postDelete = async (id) => {
 
   if (res.status !== 200) {
     return console.log("Unable to delete");
-  }
-
-  const resData = await res.data;
-  return resData;
-};
-
-export const getUserDetails = async () => {
-  const id = localStorage.getItem("userId");
-  const res = await api.get(`/user/${id}`).catch((err) => console.log(err));
-
-  if (res.status !== 200) {
-    return console.log("No user found");
   }
 
   const resData = await res.data;

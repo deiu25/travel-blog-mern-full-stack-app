@@ -381,6 +381,9 @@ const authSlice = createSlice({
       
         // Store user ID in local storage.
         localStorage.setItem("userId", state.user._id);
+
+          // Store token in local storage.
+        localStorage.setItem("token", state.user.token);
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoading = false;
@@ -403,6 +406,9 @@ const authSlice = createSlice({
         state.isLoggedIn = false;
         state.user = null;
         toast.success(action.payload);
+
+        // Remove token from local storage.
+        localStorage.removeItem("token");
       })
       .addCase(logout.rejected, (state, action) => {
         state.isLoading = false;

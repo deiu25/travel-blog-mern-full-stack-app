@@ -9,10 +9,18 @@ const postSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  image: {
-    type: String,
-    required: true,
-  },
+  images: [
+    {
+      public_id: {
+        type: String,
+        required: true
+      },
+      url: {
+        type: String,
+        required: true
+      },
+    }
+  ],
   location: {
     type: String,
     required: true,

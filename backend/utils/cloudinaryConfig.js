@@ -10,6 +10,15 @@ cloudinary.config({
   delete_derived_resources: true
 });
 
+// File Filter
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpg') {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+
 // Cloudinary Storage
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
@@ -25,18 +34,27 @@ const storage = new CloudinaryStorage({
   },
 });
 
-
-const fileFilter = (req, file, cb) => {
-  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpg') {
-    cb(null, true);
-  } else {
-    cb(null, false);
-  }
-};
-
-const upload = multer({ 
+export const upload = multer({ 
   storage: storage,
   fileFilter: fileFilter,
 });
 
-export default upload;
+// Cloudinary Storage for posts
+const postStorage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'samples',
+    public_id: (req, file) => file.originalname,
+    url: async (req, file) => {
+      return new Promise((resolve, reject) => {
+        const uniqueFilename = new Date().toISOString();
+        resolve(uniqueFilename);
+      });
+    },
+  },
+});
+
+export const postUpload = multer({ 
+  storage: postStorage,
+  fileFilter: fileFilter,
+});

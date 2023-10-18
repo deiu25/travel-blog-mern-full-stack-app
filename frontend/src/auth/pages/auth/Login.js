@@ -46,8 +46,8 @@ export const Login = () => {
     };
 
     const actionResult = await dispatch(login(userData));
-    const isSignup = actionResult.payload.isSignup; // Aici presupunem că payload-ul rezultatului conține un câmp isSignup
-    const data = actionResult.payload.user; // Presupunem că payload-ul rezultatului conține datele utilizatorului sub câmpul user
+    const isSignup = actionResult.payload.isSignup; 
+    const data = actionResult.payload.user; 
 
     if (isSignup) {
       localStorage.setItem("userId", data._id);

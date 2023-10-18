@@ -3,32 +3,100 @@ import React, { useState } from "react";
 import TravelExploreIcon from "@mui/icons-material/TravelExplore";
 import { addPost } from "../api-helpers/helpers";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from 'react-redux';
+
 const Add = () => {
   const navigate = useNavigate();
+  const { isLoading, isLoggedIn, isSuccess, isError } = useSelector(
+    (state) => state.auth
+  );
   const [inputs, setInputs] = useState({
     title: "",
     description: "",
     location: "",
-    imageUrl: "",
     date: "",
   });
+  const [file, setFile] = useState(null);
+  const [errors, setErrors] = useState({});
+
   const handleChange = (e) => {
     setInputs((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
+    if (e.target.value) {
+      setErrors((prevState) => ({
+        ...prevState,
+        [e.target.name]: null,
+      }));
+    }
   };
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
   const onResReceived = (data) => {
     console.log(data);
     navigate("/diaries");
   };
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(inputs);
-    addPost(inputs)
-      .then(onResReceived)
-      .catch((err) => console.log(err));
+    
+    if (!isLoggedIn) {
+      setErrors({ form: "You must be logged in to post." });
+      return;
+    }
+
+    if (!file) {
+      setErrors({ form: "File is required." });
+      return;
+    }
+  
+    let formErrors = {};
+  
+    for (let key in inputs) {
+      if (!inputs[key]) {
+        formErrors[key] = `${key.charAt(0).toUpperCase() + key.slice(1)} field is required.`;
+      }
+    }
+  
+    if (!file) {
+      formErrors.file = "File is required.";
+    }
+
+    if (!inputs.title || !inputs.description || !inputs.location || !inputs.date) {
+      setErrors({ form: "Please fill in all required fields." });
+      return;
+    }
+
+    console.log("Inputs:", inputs);
+  
+    if (Object.keys(formErrors).length > 0) {
+      setErrors(formErrors);
+      return;
+    }
+  
+    const formData = new FormData();
+    formData.append("images", file);
+    for (let key in inputs) {
+      formData.append(key, inputs[key]);
+    }
+    
+    try {
+      console.log(file);
+      const response = await addPost(formData);
+      if (!response) {
+        throw new Error("An error occurred while submitting the form.");
+      }
+      onResReceived(response);
+    } catch (err) {
+      console.log(err);
+      setErrors({ form: err.message });
+    }
   };
+
   return (
     <Box display="flex" flexDirection={"column"} width="100%" height="110vh" sx={{ backgroundColor: "white" }}>
       <Box display="flex" margin="auto" paddingTop={10}>
@@ -45,6 +113,7 @@ const Add = () => {
         />
       </Box>
       <form onSubmit={handleSubmit}>
+      {errors.form && <p>{errors.form}</p>}
           <Box
             padding={3}
             display="flex"
@@ -68,15 +137,9 @@ const Add = () => {
               variant="standard"
               margin="normal"
             />
-            <FormLabel sx={{ fontFamily: "quicksand" }}>Image URL</FormLabel>
-            <TextField
-              onChange={handleChange}
-              name="imageUrl"
-              value={inputs.imageUrl}
-              variant="standard"
-              margin="normal"
-            />
-
+             <FormLabel sx={{ fontFamily: "quicksand" }}>Image</FormLabel>
+              <input type="file" onChange={handleFileChange} />
+              {errors.file && <p>{errors.file}</p>}
             <FormLabel sx={{ fontFamily: "quicksand" }}>Location</FormLabel>
             <TextField
               onChange={handleChange}

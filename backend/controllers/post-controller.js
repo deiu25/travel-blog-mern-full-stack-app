@@ -1,6 +1,49 @@
 import mongoose from "mongoose";
 import Post from "../models/Post.js";
 import User from "../models/userModel.js";
+import { v2 as cloudinary } from "cloudinary";
+import streamifier from 'streamifier';
+
+// Add Post
+export const addPost = async (req, res) => {
+  const user = await User.findById(req.user._id);
+
+  try {
+    // Încărcați imaginile în Cloudinary și obțineți link-urile
+    const imagesLinks = await Promise.all(req.files.map(async (file) => {
+      return new Promise((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+          { resource_type: 'auto' },
+          (error, result) => {
+            if (error) {
+              reject(error);
+            } else {
+              resolve({
+                public_id: result.public_id,
+                url: result.secure_url
+              });
+            }
+          }
+        );
+
+        streamifier.createReadStream(file.buffer).pipe(uploadStream);
+      });
+    }));
+
+    req.body.images = imagesLinks;
+  } catch (error) {
+    return res.status(500).json({ success: false, error: "Failed to upload images." });
+  }
+
+  req.body.user = user._id
+
+  const post = await Post.create(req.body);
+
+  res.status(201).json({
+    success: true,
+    post
+  })
+}
 
 // Get All Posts
 export const getAllPosts = async (req, res) => {
@@ -14,53 +57,6 @@ export const getAllPosts = async (req, res) => {
 
   return res.status(200).json({ posts });
 };
-
-// Add Post
-export const addPost = async (req, res) => {
-  const user = await User.findById(req.user._id);
-  const { title, description, location, date, image } = req.body;
-
-  if (
-    !title &&
-    title.trim() === "" &&
-    !description &&
-    description.trim() === "" &&
-    !location &&
-    location.trim() === "" &&
-    !date &&
-    date.trim() === "" &&
-    !user &&
-    !image &&
-    image.trim() === ""
-  ) {
-    return res.status(422).json({ message: "Invalid Data" });
-  }
-
-  let post;
-
-  try {
-    post = new Post({
-      title,
-      description,
-      image,
-      location,
-      date: new Date(`${date}`),
-      user,
-    });
-
-    const session = await mongoose.startSession();
-    session.startTransaction();
-    await post.save({ session });
-    user.posts.push(post);
-    await user.save({ session });
-    session.commitTransaction();
-  }
-  catch (err) {
-    return console.log(err);
-  }
-
-  return res.status(201).json({ message: "Post Created Successfully" });
-}
 
 // Get Post By Id
 export const getPostById = async (req, res) => {
