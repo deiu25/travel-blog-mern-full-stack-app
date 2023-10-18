@@ -29,17 +29,17 @@ return (
   >
       {posts &&
           posts.map((item, index) => (
-              <DiaryItem
-                  date={new Date(`${item.date}`).toLocaleDateString()}
-                  description={item.description}
-                  image={item.image}
-                  id={item._id}
-                  location={item.location}
-                  title={item.title}
-                  key={index}
-                  user={item.user}
-                  onPostDelete={handlePostDelete}
-              />
+<DiaryItem
+  date={new Date(`${item.date}`).toLocaleDateString()}
+  description={item.description}
+  images={item.images}
+  id={item._id}
+  location={item.location}
+  title={item.title}
+  key={index}
+  user={item.user}
+  onPostDelete={handlePostDelete}
+/>
           ))}
   </Box>
 );

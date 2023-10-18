@@ -4,12 +4,6 @@ import { getPostDetails } from "../../api-helpers/helpers";
 import { Box, Typography, IconButton, CircularProgress } from "@mui/material";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import img1 from "./imgs/img1.jpg";
-import img2 from "./imgs/img2.jpg";
-import img3 from "./imgs/img3.jpg";
-import img4 from "./imgs/img4.jpg";
-
-const images = [img1, img2, img3, img4];
 
 const DiaryDetail = () => {
   const { id } = useParams();
@@ -32,6 +26,8 @@ const DiaryDetail = () => {
         setIsLoading(false);
       });
   }, [id]);
+
+  const images = post?.images || [];
 
   const handleNext = () => {
     setImageIndex((prev) => (prev + 1) % images.length);
@@ -125,18 +121,29 @@ const DiaryDetail = () => {
           </IconButton>
         </Box>
       </Box>
-
       <Box
         display="flex"
-        justifyContent="flex-start"
+        justifyContent="center"
         alignItems="center"
+        height="100vh"
         width="50%"
       >
-        <img
-          src={images[imageIndex]}
-          alt="img"
-          style={{ width: "100%", height: "100vh", objectFit: "cover" }}
-        />
+        {images.length > 0 ? (
+          <img
+            src={images[imageIndex]?.url}
+            alt={`Slide ${imageIndex}`}
+            style={{
+              maxHeight: "100vh",
+              maxWidth: "auto",
+              borderRadius: "1em",
+              boxShadow: "0px 5px 15px rgba(0,0,0,0.1)",
+            }}
+          />
+        ) : (
+          <Typography variant="body1">
+            No images available for this post.
+          </Typography>
+        )}
       </Box>
     </Box>
   );

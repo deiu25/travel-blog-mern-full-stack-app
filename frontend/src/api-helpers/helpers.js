@@ -42,18 +42,30 @@ export const getPostDetails = async (id) => {
   return resData;
 };
 
-export const postUpdate = async (data, id) => {
-  const res = await api
-    .put(`/posts/${id}`, {
-      title: data.title,
-      description: data.description,
-      location: data.location,
-      image: data.imageUrl,
-    })
-    .catch((err) => console.log(err));
+export const postUpdate = async (data, id, file) => {
+  let res;
+  try {
+    const formData = new FormData();
+    formData.append('title', data.title);
+    formData.append('description', data.description);
+    formData.append('location', data.location);
+    if (file) {
+      formData.append('image', file);
+    }
+
+    res = await api.put(`/posts/${id}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    console.log("Response data", res.data);
+  } catch (err) {
+    console.log(err);
+    return {status: 500};
+  }
 
   if (res.status !== 200) {
-    return console.log("Unable to udpate");
+    return console.log("Unable to update");
   }
 
   const resData = await res.data;

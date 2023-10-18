@@ -77,58 +77,76 @@ export const getPostById = async (req, res) => {
 
 // Update Post
 export const updatePost = async (req, res) => {
+  console.log('updatePost called');
   const id = req.params.id;
   const { title, description, location, image } = req.body;
 
-  if (
-    !title &&
-    title.trim() === "" &&
-    !description &&
-    description.trim() === "" &&
-    !location &&
-    location.trim() === "" &&
-    !image &&
-    image.trim() === ""
-  ) {
-    return res.status(422).json({ message: "Invalid Data" });
-  }
-
   let post;
+
   try {
-    post = await Post.findByIdAndUpdate(id, {
-      title,
-      description,
-      image,
-      location,
-    });
+    console.log('findById called');
+    post = await Post.findById(id);
   } catch (err) {
-    return console.log(err);
+    console.log('findById failed');
+    return res.status(500).json({ message: "Something went wrong, please try again later" });
+  }
+  if (!post) {
+    console.log('findById found no post');
+    return res.status(404).json({ message: "No post found" });
   }
 
-  if (!post) {
-    return res.status(500).json({ message: "Unable to update" });
+  // Dacă imaginea postării se schimbă, șterge imaginea veche de pe Cloudinary
+  if (post.image != image) {
+    try {
+      console.log('cloudinary destroy called');
+      // Șterge imaginea veche de pe Cloudinary
+      await cloudinary.uploader.destroy(post.image);
+
+      // Încarcă noua imagine pe Cloudinary și obține link-ul
+      console.log('cloudinary upload called');
+      const result = await cloudinary.uploader.upload(image);
+      post.image = result.secure_url;
+    } catch (err) {
+      console.error('A apărut o eroare în timpul încărcării imaginii:', err);
+      return res.status(500).json({ message: "Failed to update image" });
+    }
   }
-  return res.status(200).json({ message: "Updated Successfully" });
+
+  post.title = title;
+  post.description = description;
+  post.location = location;
+
+  try {
+    console.log('save called');
+    await post.save();
+  } catch (err) {
+    console.log('save failed');
+    return res.status(500).json({ message: "Something went wrong, please try again later" });
+  }
+
+  return res.status(200).json({ post });
 };
 
 // Delete Post
 export const deletePost = async (req, res) => {
   const id = req.params.id;
+
   let post;
+
   try {
-    const session = await mongoose.startSession();
-    session.startTransaction();
-    post = await Post.findById(id).populate("user");
-    post.user.posts.pull(post);
-    await post.user.save({ session });
-    post = await Post.findByIdAndRemove(id);
-    session.commitTransaction();
+    post = await Post.findById(id);
   } catch (err) {
     return console.log(err);
   }
   if (!post) {
-    return res.status(500).json({ message: "Unable to delete" });
+    return res.status(404).json({ message: "No post found" });
   }
 
-  return res.status(200).json({ message: "Deleted Successfully" });
+  try {
+    await post.remove();
+  } catch (err) {
+    return console.log(err);
+  }
+
+  return res.status(200).json({ message: "Post deleted successfully" });
 };

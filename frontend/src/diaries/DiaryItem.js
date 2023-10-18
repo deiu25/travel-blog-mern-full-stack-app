@@ -21,7 +21,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { postDelete } from "../api-helpers/helpers";
 
-const DiaryItem = ({ title, image, location, id, user, onPostDelete }) => {
+const DiaryItem = ({ title, images, location, id, user, onPostDelete }) => {
   const [open, setOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
 
@@ -56,7 +56,9 @@ const DiaryItem = ({ title, image, location, id, user, onPostDelete }) => {
   return (
     <div className="card">
       <div className="imgBx">
-        <img src={image} alt="images" />
+        {images.map((img, index) => (
+          <img key={index} src={img.url} alt="images" />
+        ))}
       </div>
 
       <div className="content">

@@ -1,46 +1,63 @@
 import { Button, FormLabel, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getPostDetails, postUpdate } from "../api-helpers/helpers";
 import TravelExploreIcon from "@mui/icons-material/TravelExplore";
+import { toast } from 'react-toastify';
+
 
 const DiaryUpdate = () => {
+  const navigate = useNavigate();
   const [post, setPost] = useState();
   const [inputs, setInputs] = useState({
     title: "",
     description: "",
     location: "",
-    imageUrl: "",
   });
+  const [file, setFile] = useState(null);
   const id = useParams().id;
+
   useEffect(() => {
     getPostDetails(id)
       .then((data) => {
+        console.log("Post data: ", data);
         setPost(data.post);
 
         setInputs({
           title: data.post.title,
           description: data.post.description,
-          imageUrl: data.post.image,
           location: data.post.location,
         });
       })
       .catch((err) => console.log(err));
   }, [id]);
 
-  const handleChange = (e) => {
+const handleChange = (e) => {
+  if (e.target.name === "image") {
+    setFile(e.target.files[0]);
+  } else {
     setInputs((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
-  };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    postUpdate(inputs, id)
-      .then((data) => console.log(data))
-      .catch((err) => console.log(err));
-  };
+  }
+};
+
+const handleSubmit = (e) => {
+  e.preventDefault();
+  postUpdate(inputs, id, file)
+    .then((data) => {
+      console.log("Post updated successfully: ", data);
+      toast.success("Post updated successfully");
+      navigate("/diaries");
+    })
+    .catch((err) => {
+      console.log(err);
+      toast.error("Failed to update post");
+    });
+};
+
   return (
     <Box display="flex" flexDirection={"column"} width="100%" height="100vh" sx={{ backgroundColor: "white" }}>
       <Box display="flex" margin="auto" paddingTop={10}>
@@ -82,14 +99,8 @@ const DiaryUpdate = () => {
               variant="standard"
               margin="normal"
             />
-            <FormLabel sx={{ fontFamily: "quicksand" }}>Image URL</FormLabel>
-            <TextField
-              onChange={handleChange}
-              name="imageUrl"
-              value={inputs.imageUrl}
-              variant="standard"
-              margin="normal"
-            />
+            <FormLabel sx={{ fontFamily: "quicksand" }}>Image</FormLabel>
+             <input type="file" name="image" onChange={handleChange} multiple />
 
             <FormLabel sx={{ fontFamily: "quicksand" }}>Location</FormLabel>
             <TextField

@@ -33,7 +33,7 @@ const Add = () => {
   };
 
   const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+    setFile(Array.from(e.target.files));
   };
 
   const onResReceived = (data) => {
@@ -79,7 +79,9 @@ const Add = () => {
     }
   
     const formData = new FormData();
-    formData.append("images", file);
+    file.forEach((file, index) => {
+      formData.append("images", file);
+    });
     for (let key in inputs) {
       formData.append(key, inputs[key]);
     }
@@ -138,7 +140,7 @@ const Add = () => {
               margin="normal"
             />
              <FormLabel sx={{ fontFamily: "quicksand" }}>Image</FormLabel>
-              <input type="file" onChange={handleFileChange} />
+             <input type="file" onChange={handleFileChange} multiple />
               {errors.file && <p>{errors.file}</p>}
             <FormLabel sx={{ fontFamily: "quicksand" }}>Location</FormLabel>
             <TextField
