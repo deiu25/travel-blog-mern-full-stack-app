@@ -11,7 +11,7 @@ postRouter.get("/", getAllPosts);
 postRouter.get("/:id", getPostById);
 
 postRouter.post("/", upload.array('images'), protect, addPost);
-postRouter.put("/:id", protect, updatePost);
+postRouter.put("/:id", upload.array('images'), protect, updatePost);
 postRouter.delete("/:id", protect, deletePost);
 
 export default postRouter;

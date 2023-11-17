@@ -2,7 +2,7 @@ import { Button, FormLabel, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getPostDetails, postUpdate } from "../api-helpers/helpers";
+import { getPostDetails, updatePost } from "../api-helpers/helpers";
 import TravelExploreIcon from "@mui/icons-material/TravelExplore";
 import { toast } from 'react-toastify';
 
@@ -33,20 +33,31 @@ const DiaryUpdate = () => {
       .catch((err) => console.log(err));
   }, [id]);
 
-const handleChange = (e) => {
-  if (e.target.name === "image") {
-    setFile(e.target.files[0]);
-  } else {
-    setInputs((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value,
-    }));
-  }
-};
+  const handleChange = (e) => {
+    if (e.target.name === "images") {
+      setFile(Array.from(e.target.files));
+    } else {
+      setInputs((prevState) => ({
+        ...prevState,
+        [e.target.name]: e.target.value,
+      }));
+    }
+  };
 
 const handleSubmit = (e) => {
   e.preventDefault();
-  postUpdate(inputs, id, file)
+  
+  const formData = new FormData();
+  formData.append('title', inputs.title);
+  formData.append('description', inputs.description);
+  formData.append('location', inputs.location);
+  if (file) {
+    file.forEach((f, index) => {
+      formData.append('images', f);
+    });
+  }
+  
+  updatePost(id, formData)
     .then((data) => {
       console.log("Post updated successfully: ", data);
       toast.success("Post updated successfully");
@@ -100,7 +111,7 @@ const handleSubmit = (e) => {
               margin="normal"
             />
             <FormLabel sx={{ fontFamily: "quicksand" }}>Image</FormLabel>
-             <input type="file" name="image" onChange={handleChange} multiple />
+             <input type="file" name="images" onChange={handleChange} multiple />
 
             <FormLabel sx={{ fontFamily: "quicksand" }}>Location</FormLabel>
             <TextField

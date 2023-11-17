@@ -1,7 +1,7 @@
 import Post from "../models/Post.js";
 import User from "../models/userModel.js";
 import { v2 as cloudinary } from "cloudinary";
-import streamifier from 'streamifier';
+import streamifier from "streamifier";
 
 // Add Post
 export const addPost = async (req, res) => {
@@ -9,40 +9,44 @@ export const addPost = async (req, res) => {
 
   try {
     // Încărcați imaginile în Cloudinary și obțineți link-urile
-    const imagesLinks = await Promise.all(req.files.map(async (file) => {
-      return new Promise((resolve, reject) => {
-        const uploadStream = cloudinary.uploader.upload_stream(
-          { resource_type: 'auto' },
-          (error, result) => {
-            if (error) {
-              reject(error);
-            } else {
-              resolve({
-                public_id: result.public_id,
-                url: result.secure_url
-              });
+    const imagesLinks = await Promise.all(
+      req.files.map(async (file) => {
+        return new Promise((resolve, reject) => {
+          const uploadStream = cloudinary.uploader.upload_stream(
+            { resource_type: "auto" },
+            (error, result) => {
+              if (error) {
+                reject(error);
+              } else {
+                resolve({
+                  public_id: result.public_id,
+                  url: result.secure_url,
+                });
+              }
             }
-          }
-        );
+          );
 
-        streamifier.createReadStream(file.buffer).pipe(uploadStream);
-      });
-    }));
+          streamifier.createReadStream(file.buffer).pipe(uploadStream);
+        });
+      })
+    );
 
     req.body.images = imagesLinks;
   } catch (error) {
-    return res.status(500).json({ success: false, error: "Failed to upload images." });
+    return res
+      .status(500)
+      .json({ success: false, error: "Failed to upload images." });
   }
 
-  req.body.user = user._id
+  req.body.user = user._id;
 
   const post = await Post.create(req.body);
 
   res.status(201).json({
     success: true,
-    post
-  })
-}
+    post,
+  });
+};
 
 // Get All Posts
 export const getAllPosts = async (req, res) => {
@@ -76,54 +80,79 @@ export const getPostById = async (req, res) => {
 
 // Update Post
 export const updatePost = async (req, res) => {
-  console.log('updatePost called');
   const id = req.params.id;
-  const { title, description, location, image } = req.body;
 
   let post;
 
   try {
-    console.log('findById called');
     post = await Post.findById(id);
   } catch (err) {
-    console.log('findById failed');
-    return res.status(500).json({ message: "Something went wrong, please try again later" });
+    return res.status(500).json({ error: "Unexpected error occurred" });
   }
+
   if (!post) {
-    console.log('findById found no post');
     return res.status(404).json({ message: "No post found" });
   }
 
-  // Dacă imaginea postării se schimbă, șterge imaginea veche de pe Cloudinary
-  if (post.image != image) {
+  // Upload new images to Cloudinary and get links
+  let imagesLinks = post.images;
+  if (req.files && req.files.length > 0) {
     try {
-      console.log('cloudinary destroy called');
-      // Șterge imaginea veche de pe Cloudinary
-      await cloudinary.uploader.destroy(post.image);
+      imagesLinks = await Promise.all(
+        req.files.map(async (file) => {
+          return new Promise((resolve, reject) => {
+            const uploadStream = cloudinary.uploader.upload_stream(
+              { resource_type: "auto" },
+              (error, result) => {
+                if (error) {
+                  reject(error);
+                } else {
+                  resolve({
+                    public_id: result.public_id,
+                    url: result.secure_url,
+                  });
+                }
+              }
+            );
 
-      // Încarcă noua imagine pe Cloudinary și obține link-ul
-      console.log('cloudinary upload called');
-      const result = await cloudinary.uploader.upload(image);
-      post.image = result.secure_url;
+            streamifier.createReadStream(file.buffer).pipe(uploadStream);
+          });
+        })
+      );
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ success: false, error: "Failed to upload new images." });
+    }
+
+    // Delete old images from Cloudinary only if new ones were uploaded successfully
+    try {
+      await Promise.all(
+        post.images.map(async (image) => {
+          await cloudinary.uploader.destroy(image.public_id);
+        })
+      );
     } catch (err) {
-      console.error('A apărut o eroare în timpul încărcării imaginii:', err);
-      return res.status(500).json({ message: "Failed to update image" });
+      return res.status(500).json({ error: "Failed to delete old images" });
     }
   }
 
-  post.title = title;
-  post.description = description;
-  post.location = location;
+  // Update fields
+  post.title = req.body.title || post.title;
+  post.description = req.body.description || post.description;
+  post.location = req.body.location || post.location;
+  post.date = req.body.date || post.date;
+  post.images = imagesLinks;
 
+  // Save updated post
   try {
-    console.log('save called');
-    await post.save();
+    const updatedPost = await post.save();
+    return res
+      .status(200)
+      .json({ message: "Post updated successfully", post: updatedPost });
   } catch (err) {
-    console.log('save failed');
-    return res.status(500).json({ message: "Something went wrong, please try again later" });
+    return res.status(500).json({ error: "Failed to update post" });
   }
-
-  return res.status(200).json({ post });
 };
 
 // Delete Post
@@ -144,9 +173,11 @@ export const deletePost = async (req, res) => {
 
   // Delete images from Cloudinary
   try {
-    await Promise.all(post.images.map(async (image) => {
-      await cloudinary.uploader.destroy(image.public_id);
-    }));
+    await Promise.all(
+      post.images.map(async (image) => {
+        await cloudinary.uploader.destroy(image.public_id);
+      })
+    );
   } catch (err) {
     return res.status(500).json({ error: "Failed to delete images" });
   }

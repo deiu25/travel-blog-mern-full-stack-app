@@ -42,34 +42,24 @@ export const getPostDetails = async (id) => {
   return resData;
 };
 
-export const postUpdate = async (data, id, file) => {
-  let res;
+export const updatePost = async (id, formData) => {
   try {
-    const formData = new FormData();
-    formData.append('title', data.title);
-    formData.append('description', data.description);
-    formData.append('location', data.location);
-    if (file) {
-      formData.append('image', file);
-    }
-
-    res = await api.put(`/posts/${id}`, formData, {
+    const res = await api.put(`/posts/${id}`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
-    console.log("Response data", res.data);
+
+    if (res.status !== 200) {
+      console.error("A apărut o eroare: starea răspunsului nu este 200");
+      return null;
+    }
+
+    return res.data.post;
   } catch (err) {
-    console.log(err);
-    return {status: 500};
+    console.error("A apărut o eroare în timpul actualizării postării:", err);
+    return null;
   }
-
-  if (res.status !== 200) {
-    return console.log("Unable to update");
-  }
-
-  const resData = await res.data;
-  return resData;
 };
 
 export const deletePost = async (id) => {
