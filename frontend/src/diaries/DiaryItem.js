@@ -17,6 +17,7 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import TitleIcon from "@mui/icons-material/Title"; 
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Carousel } from 'react-responsive-carousel';
 
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
@@ -77,6 +78,9 @@ const DiaryItem = ({ title, images, location, id, user, onPostDelete }) => {
           </li>
           <li>
             <LocationOnIcon /> {location}  
+          </li>
+          <li>
+          <AccountCircleIcon /> {user.firstname}
           </li>
           <li>
             <CardActions>

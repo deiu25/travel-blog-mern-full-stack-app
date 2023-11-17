@@ -123,6 +123,11 @@
     box-shadow: -10px 10px 0 #344e41;
 }
 
+.diary-card-ul {
+    display: flex;
+    flex-direction: column;
+}
+
 @media screen and (max-width: 768px) {
     .diary-card-ul {
         position: static; 
