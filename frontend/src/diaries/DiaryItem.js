@@ -1,3 +1,5 @@
+import React, { useState } from "react";
+import { postDelete } from "../api-helpers/helpers";
 import {
   Alert,
   CardActions,
@@ -15,11 +17,11 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import TitleIcon from "@mui/icons-material/Title"; 
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
+import { Carousel } from 'react-responsive-carousel';
 
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import "./DiaryCard.css";
-import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { postDelete } from "../api-helpers/helpers";
 
 const DiaryItem = ({ title, images, location, id, user, onPostDelete }) => {
   const [open, setOpen] = useState(false);
@@ -54,11 +56,15 @@ const DiaryItem = ({ title, images, location, id, user, onPostDelete }) => {
   };
 
   return (
-    <div className="card">
+<div className="card">
       <div className="imgBx">
-        {images.map((img, index) => (
-          <img key={index} src={img.url} alt="images" />
-        ))}
+        <Carousel showIndicators={false} showThumbs={false}>
+          {images.map((img, index) => (
+            <div key={index}>
+              <img src={img.url} alt="images" />
+            </div>
+          ))}
+        </Carousel>
       </div>
 
       <div className="content">
