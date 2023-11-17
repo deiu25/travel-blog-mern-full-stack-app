@@ -72,15 +72,16 @@ export const postUpdate = async (data, id, file) => {
   return resData;
 };
 
-export const postDelete = async (id) => {
-  const res = await api
-    .delete(`/posts/${id}`)
-    .catch((err) => console.log(err));
-
-  if (res.status !== 200) {
-    return console.log("Unable to delete");
+export const deletePost = async (id) => {
+  try {
+    const res = await api.delete(`/posts/${id}`);
+    if (res.status !== 200) {
+      console.error("A apărut o eroare: starea răspunsului nu este 200");
+      return null;
+    }
+    return res.data;
+  } catch (err) {
+    console.error("A apărut o eroare în timpul ștergerii postării:", err);
+    return null;
   }
-
-  const resData = await res.data;
-  return resData;
 };

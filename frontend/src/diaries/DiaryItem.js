@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { postDelete } from "../api-helpers/helpers";
+import { deletePost } from "../api-helpers/helpers";
 import {
   Alert,
   CardActions,
@@ -45,7 +45,7 @@ const DiaryItem = ({ title, images, location, id, user, onPostDelete }) => {
   };
 
   const handleDelete = () => {
-    postDelete(id)
+    deletePost(id)
       .then((data) => {
         console.log(data);
         onPostDelete(id);
@@ -58,7 +58,7 @@ const DiaryItem = ({ title, images, location, id, user, onPostDelete }) => {
   return (
 <div className="card">
       <div className="imgBx">
-        <Carousel showIndicators={false} showThumbs={false}>
+        <Carousel showIndicators={false} showThumbs={false} infiniteLoop={true}>
           {images.map((img, index) => (
             <div key={index}>
               <img src={img.url} alt="images" />

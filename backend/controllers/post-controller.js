@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import Post from "../models/Post.js";
 import User from "../models/userModel.js";
 import { v2 as cloudinary } from "cloudinary";
@@ -136,16 +135,27 @@ export const deletePost = async (req, res) => {
   try {
     post = await Post.findById(id);
   } catch (err) {
-    return console.log(err);
+    return res.status(500).json({ error: "Unexpected error occurred" });
   }
+
   if (!post) {
     return res.status(404).json({ message: "No post found" });
   }
 
+  // Delete images from Cloudinary
   try {
-    await post.remove();
+    await Promise.all(post.images.map(async (image) => {
+      await cloudinary.uploader.destroy(image.public_id);
+    }));
   } catch (err) {
-    return console.log(err);
+    return res.status(500).json({ error: "Failed to delete images" });
+  }
+
+  // Delete post from database
+  try {
+    await post.deleteOne();
+  } catch (err) {
+    return res.status(500).json({ error: "Failed to delete post" });
   }
 
   return res.status(200).json({ message: "Post deleted successfully" });
