@@ -82,7 +82,7 @@ const DiaryItem = ({ title, images, location, id, user, onPostDelete }) => {
           <li>
           <AccountCircleIcon /> {user.firstname}
           </li>
-          <li>
+          <li className="right-align">
             <CardActions>
               {isLoogedInUser() && (
                 <>
