@@ -227,8 +227,11 @@
 .DD-slider .DD-wrapper .DD-left > div {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
+  margin-top: 15vh;
   padding: 0px 90px 0px 40px;
+  overflow: scroll;
+  padding-bottom: 20vh;
 }
 
 .DD-slider .DD-wrapper .DD-left > div h2 {
