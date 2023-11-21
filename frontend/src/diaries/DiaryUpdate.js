@@ -4,8 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getPostDetails, updatePost } from "../api-helpers/helpers";
 import TravelExploreIcon from "@mui/icons-material/TravelExplore";
-import { toast } from 'react-toastify';
-
+import { toast } from "react-toastify";
 
 const DiaryUpdate = () => {
   const navigate = useNavigate();
@@ -16,6 +15,7 @@ const DiaryUpdate = () => {
     location: "",
   });
   const [file, setFile] = useState(null);
+  const [previewSource, setPreviewSource] = useState([]);
   const id = useParams().id;
 
   useEffect(() => {
@@ -36,6 +36,11 @@ const DiaryUpdate = () => {
   const handleChange = (e) => {
     if (e.target.name === "images") {
       setFile(Array.from(e.target.files));
+      setPreviewSource(
+        e.target.files.length > 0
+          ? Array.from(e.target.files).map((file) => URL.createObjectURL(file))
+          : []
+      );
     } else {
       setInputs((prevState) => ({
         ...prevState,
@@ -44,40 +49,52 @@ const DiaryUpdate = () => {
     }
   };
 
-const handleSubmit = (e) => {
-  e.preventDefault();
-  
-  const formData = new FormData();
-  formData.append('title', inputs.title);
-  formData.append('description', inputs.description);
-  formData.append('location', inputs.location);
-  if (file) {
-    file.forEach((f, index) => {
-      formData.append('images', f);
-    });
-  }
-  
-  updatePost(id, formData)
-    .then((data) => {
-      console.log("Post updated successfully: ", data);
-      toast.success("Post updated successfully");
-      navigate("/diaries");
-    })
-    .catch((err) => {
-      console.log(err);
-      toast.error("Failed to update post");
-    });
-};
+  const handleDeletePreview = (index) => {
+    setPreviewSource((prev) => prev.filter((src, i) => i !== index));
+    setFile((prev) => prev.filter((file, i) => i !== index));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("title", inputs.title);
+    formData.append("description", inputs.description);
+    formData.append("location", inputs.location);
+    if (file) {
+      file.forEach((f, index) => {
+        formData.append("images", f);
+      });
+    }
+
+    updatePost(id, formData)
+      .then((data) => {
+        console.log("Post updated successfully: ", data);
+        toast.success("Post updated successfully");
+        navigate("/diaries");
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Failed to update post");
+      });
+  };
 
   return (
-    <Box display="flex" flexDirection={"column"} width="100%" height="100vh" sx={{ backgroundColor: "white" }}>
+    <Box
+      display="flex"
+      flexDirection={"column"}
+      width="100%"
+      height="auto"
+      sx={{ backgroundColor: "white" }}
+    >
       <Box display="flex" margin="auto" paddingTop={10}>
         <Typography
           fontWeight={"bold"}
           variant="h4"
           fontFamily={"dancing script"}
           sx={{
-            color: "#333"}}
+            color: "#333",
+          }}
         >
           Add Your Travel Diary
         </Typography>
@@ -111,8 +128,31 @@ const handleSubmit = (e) => {
               margin="normal"
             />
             <FormLabel sx={{ fontFamily: "quicksand" }}>Image</FormLabel>
-             <input type="file" name="images" onChange={handleChange} multiple />
-
+            <input type="file" name="images" onChange={handleChange} multiple />
+            <Box className="imgPrevUpdate">
+            {previewSource.map((src, index) => (
+              <div key={index}>
+                <img src={src} alt="" className="imgPrev" />
+                <button
+                  onClick={() => handleDeletePreview(index)}
+                  className="deleteImgPrev"
+                >
+                  X
+                </button>
+              </div>
+            ))}
+          </Box>
+            <FormLabel sx={{ fontFamily: "quicksand" }}>Old Images</FormLabel>
+            <Box className="imgPrevUpdate">
+              {post.images.map((image, index) => (
+                <div key={index}>
+                  <img src={image.url} alt="" className="imgPrev" />
+                  <button className="deleteImgPrev" onClick={() => index}>
+                    X
+                  </button>
+                </div>
+              ))}
+            </Box>
             <FormLabel sx={{ fontFamily: "quicksand" }}>Location</FormLabel>
             <TextField
               onChange={handleChange}

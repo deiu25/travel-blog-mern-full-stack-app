@@ -255,3 +255,31 @@
   height: 100%;
   object-fit: cover;
 }
+
+/* Diary Update */
+
+.imgPrevUpdate {
+  display: flex;
+  flex-direction: row;
+  margin: 20px 0;
+  gap: 15px;
+}
+
+.imgPrev {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.deleteImgPrev {
+  width: 20px;
+  height: 20px;
+  background-color: #db0404;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
