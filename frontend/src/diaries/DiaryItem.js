@@ -20,7 +20,7 @@ import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Carousel } from 'react-responsive-carousel';
 
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "./DiaryCard.css";
 import { Link } from "react-router-dom";
 

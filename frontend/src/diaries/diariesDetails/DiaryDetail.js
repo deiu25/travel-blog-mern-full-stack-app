@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getPostDetails } from "../../api-helpers/helpers";
-import { Box, Typography, IconButton, CircularProgress } from "@mui/material";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import { Typography, CircularProgress } from "@mui/material";
 
 const DiaryDetail = () => {
   const { id } = useParams();
@@ -46,106 +44,36 @@ const DiaryDetail = () => {
   }
 
   return (
-    <Box
-      display="flex"
-      justifyContent="space-between"
-      alignItems="center"
-      height="100vh"
-      sx={{ backgroundColor: "aliceblue" }}
-    >
-      <Box display="flex" justifyContent="space-between" width="50%" pl={2}>
-        <Box display="flex" flexDirection="column" justifyContent="center">
-          <Typography
-            fontWeight={"bold"}
-            variant="h4"
-            fontFamily={"dancing script"}
-            color="text.primary"
-            mb={2}
-          >
-            {post.title}
-          </Typography>
-          <Typography
-            variant="body1"
-            color="text.primary"
-            sx={{
-              fontFamily: "'Roboto', sans-serif",
-              fontWeight: 300,
-              letterSpacing: "0.025em",
-              lineHeight: 1.5,
-              color: "#333",
-              textTransform: "none",
-              whiteSpace: "pre-line",
-              marginBottom: "1em",
-            }}
-          >
-            {post.description}
-          </Typography>
-        </Box>
-        <Box
-          display="flex"
-          flexDirection="column"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <IconButton
-            onClick={handlePrev}
-            color="primary"
-            sx={{
-              backgroundColor: "#f5f5f5",
-              boxShadow: "0px 5px 15px rgba(0,0,0,0.1)",
-              transition: "all 0.3s ease",
-              "&:hover": {
-                backgroundColor: "#1976d2",
-                boxShadow: "0px 10px 20px rgba(0,0,0,0.3)",
-                color: "white",
-              },
-            }}
-          >
-            <ArrowUpwardIcon fontSize="large" />
-          </IconButton>
-          <IconButton
-            onClick={handleNext}
-            color="primary"
-            sx={{
-              backgroundColor: "#f5f5f5",
-              boxShadow: "0px 5px 15px rgba(0,0,0,0.1)",
-              transition: "all 0.3s ease",
-              "&:hover": {
-                backgroundColor: "#1976d2",
-                boxShadow: "0px 10px 20px rgba(0,0,0,0.3)",
-                color: "white",
-              },
-            }}
-          >
-            <ArrowDownwardIcon fontSize="large" />
-          </IconButton>
-        </Box>
-      </Box>
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        height="100vh"
-        width="50%"
-      >
-        {images.length > 0 ? (
-          <img
-            src={images[imageIndex]?.url}
-            alt={`Slide ${imageIndex}`}
-            style={{
-              maxHeight: "100vh",
-              maxWidth: "auto",
-              borderRadius: "1em",
-              boxShadow: "0px 5px 15px rgba(0,0,0,0.1)",
-            }}
-          />
-        ) : (
-          <Typography variant="body1">
-            No images available for this post.
-          </Typography>
-        )}
-      </Box>
-    </Box>
+    <div className="DD-slider">
+      <div className="DD-controls">
+        <div className="DD-up">
+          <i onClick={handleNext} className="fa fa-chevron-up"></i>
+        </div>
+        <div className="DD-down">
+          <i onClick={handlePrev} className="fa fa-chevron-down"></i>
+        </div>
+      </div>
+
+      <div className="DD-wrapper">
+        <div className="DD-left">
+          <div>
+            <Typography variant="h2">{post.title}</Typography>
+            <Typography variant="body1">{post.description}</Typography>
+          </div>
+        </div>
+        <div className="DD-right">
+          <div>
+            {images.length > 0 ? (
+              <img src={images[imageIndex]?.url} alt={`Slide ${imageIndex}`} />
+            ) : (
+                <Typography variant="body1">
+                  No images available for this post.
+                </Typography>
+              )}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
