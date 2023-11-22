@@ -2,7 +2,11 @@ import { Button, FormLabel, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { deleteImage, getPostDetails, updatePost } from "../api-helpers/helpers";
+import {
+  deleteImage,
+  getPostDetails,
+  updatePost,
+} from "../api-helpers/helpers";
 import TravelExploreIcon from "@mui/icons-material/TravelExplore";
 import { toast } from "react-toastify";
 
@@ -21,7 +25,6 @@ const DiaryUpdate = () => {
   useEffect(() => {
     getPostDetails(id)
       .then((data) => {
-        console.log("Post data: ", data);
         setPost(data.post);
 
         setInputs({
@@ -59,14 +62,16 @@ const DiaryUpdate = () => {
     setPost((prevPost) => {
       return {
         ...prevPost,
-        images: prevPost.images.filter((image) => image.public_id !== public_id),
+        images: prevPost.images.filter(
+          (image) => image.public_id !== public_id
+        ),
       };
     });
-  
+
     // Send a request to the backend to delete the image from Cloudinary
     deleteImage(public_id)
       .then((data) => {
-        if(data) {
+        if (data) {
           console.log("Image deleted successfully: ", data);
           toast.success("Image deleted successfully");
         }
@@ -92,7 +97,6 @@ const DiaryUpdate = () => {
 
     updatePost(id, formData)
       .then((data) => {
-        console.log("Post updated successfully: ", data);
         toast.success("Post updated successfully");
         navigate("/diaries");
       })
@@ -153,26 +157,29 @@ const DiaryUpdate = () => {
             <FormLabel sx={{ fontFamily: "quicksand" }}>Image</FormLabel>
             <input type="file" name="images" onChange={handleChange} multiple />
             <Box className="imgPrevUpdate">
-            {previewSource.map((src, index) => (
-              <div key={index}>
-                <img src={src} alt="" className="imgPrev" />
-                <button
-                  onClick={() => handleDeletePreview(index)}
-                  className="deleteImgPrev"
-                >
-                  X
-                </button>
-              </div>
-            ))}
-          </Box>
+              {previewSource.map((src, index) => (
+                <div key={index}>
+                  <img src={src} alt="" className="imgPrev" />
+                  <button
+                    onClick={() => handleDeletePreview(index)}
+                    className="deleteImgPrev"
+                  >
+                    X
+                  </button>
+                </div>
+              ))}
+            </Box>
             <FormLabel sx={{ fontFamily: "quicksand" }}>Old Images</FormLabel>
             <Box className="imgPrevUpdate">
               {post.images.map((image, index) => (
                 <div key={index}>
                   <img src={image.url} alt="" className="imgPrev" />
-                  <button className="deleteImgPrev" onClick={() => handleDeleteImage(image.public_id)}>
-  X
-</button>
+                  <button
+                    className="deleteImgPrev"
+                    onClick={() => handleDeleteImage(image.public_id)}
+                  >
+                    X
+                  </button>
                 </div>
               ))}
             </Box>

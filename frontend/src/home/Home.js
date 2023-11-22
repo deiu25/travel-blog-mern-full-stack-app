@@ -4,6 +4,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { keyframes } from "@mui/system";
 
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectIsLoggedIn } from "../auth/redux/features/auth/authSlice";
+
 const Home = () => {
   const zoomAnimation = keyframes`
     0% {
@@ -16,6 +20,17 @@ const Home = () => {
       transform: scale(1);
     }
   `;
+
+  const navigate = useNavigate();
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+
+  const handleShareStoryClick = () => {
+    if (isLoggedIn) {
+      navigate("/add");
+    } else {
+      navigate("/auth");
+    }
+  };
 
   return (
     <Box width="100%" height="100vh" position="relative">
@@ -56,8 +71,7 @@ const Home = () => {
             </Typography>
             <Box margin="auto" mt={3} display="flex" justifyContent="center">
               <Button
-                LinkComponent={Link}
-                to="/add"
+                onClick={handleShareStoryClick}
                 variant="outlined"
                 sx={{
                   mr: 2,
