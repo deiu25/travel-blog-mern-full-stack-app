@@ -62,6 +62,22 @@ export const updatePost = async (id, formData) => {
   }
 };
 
+export const deleteImage = async (public_id) => {
+  try {
+    const res = await api.delete(`/images/${public_id}`);
+
+    if (res.status !== 200) {
+      console.error("A apărut o eroare: starea răspunsului nu este 200");
+      return null;
+    }
+
+    return res.data;
+  } catch (err) {
+    console.error("A apărut o eroare în timpul ștergerii imaginii:", err);
+    return null;
+  }
+};
+
 export const deletePost = async (id) => {
   try {
     const res = await api.delete(`/posts/${id}`);

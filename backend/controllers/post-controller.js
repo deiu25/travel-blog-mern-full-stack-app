@@ -155,6 +155,25 @@ export const updatePost = async (req, res) => {
   }
 };
 
+// Delete a specific image
+export const deleteImage = async (req, res) => {
+  const { public_id } = req.params;
+
+  try {
+    const result = await cloudinary.uploader.destroy(public_id);
+
+    if (result.result !== "ok") {
+      return res
+        .status(500)
+        .json({ error: "Failed to delete the image from Cloudinary" });
+    }
+
+    return res.status(200).json({ message: "Image deleted successfully" });
+  } catch (err) {
+    return res.status(500).json({ error: "Unexpected error occurred" });
+  }
+};
+
 // Delete Post
 export const deletePost = async (req, res) => {
   const id = req.params.id;

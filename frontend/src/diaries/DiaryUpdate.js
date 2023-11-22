@@ -2,7 +2,7 @@ import { Button, FormLabel, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getPostDetails, updatePost } from "../api-helpers/helpers";
+import { deleteImage, getPostDetails, updatePost } from "../api-helpers/helpers";
 import TravelExploreIcon from "@mui/icons-material/TravelExplore";
 import { toast } from "react-toastify";
 
@@ -52,6 +52,29 @@ const DiaryUpdate = () => {
   const handleDeletePreview = (index) => {
     setPreviewSource((prev) => prev.filter((src, i) => i !== index));
     setFile((prev) => prev.filter((file, i) => i !== index));
+  };
+
+  const handleDeleteImage = (public_id) => {
+    // Delete the image from the post state
+    setPost((prevPost) => {
+      return {
+        ...prevPost,
+        images: prevPost.images.filter((image) => image.public_id !== public_id),
+      };
+    });
+  
+    // Send a request to the backend to delete the image from Cloudinary
+    deleteImage(public_id)
+      .then((data) => {
+        if(data) {
+          console.log("Image deleted successfully: ", data);
+          toast.success("Image deleted successfully");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Failed to delete image");
+      });
   };
 
   const handleSubmit = (e) => {
@@ -147,9 +170,9 @@ const DiaryUpdate = () => {
               {post.images.map((image, index) => (
                 <div key={index}>
                   <img src={image.url} alt="" className="imgPrev" />
-                  <button className="deleteImgPrev" onClick={() => index}>
-                    X
-                  </button>
+                  <button className="deleteImgPrev" onClick={() => handleDeleteImage(image.public_id)}>
+  X
+</button>
                 </div>
               ))}
             </Box>

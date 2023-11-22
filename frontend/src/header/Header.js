@@ -1,6 +1,16 @@
 import React, { useState } from "react";
-import { AppBar, Tab, Tabs, Toolbar, Typography } from "@mui/material";
+import {
+  AppBar,
+  Tab,
+  Toolbar,
+  Typography,
+  Drawer,
+  IconButton,
+  Box,
+  Hidden,
+} from "@mui/material";
 import ModeOfTravelIcon from "@mui/icons-material/ModeOfTravel";
+import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -10,60 +20,76 @@ const loggedInLinks = ["home", "diaries", "add", "profile"];
 const Header = () => {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
-  const [value, setValue] = useState(0);
-  
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const toggleDrawer = (open) => (event) => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+    setDrawerOpen(open);
+  };
+
+  const list = (links) => (
+    links.map((link) => (
+        <Tab
+          LinkComponent={Link}
+          to={`/${link === "home" ? "" : link}`}
+          sx={{
+            color: "black",
+            textDecoration: "none",
+            ":hover": {
+              textDecoration: "underline",
+              textUnderlineOffset: "18px",
+            },
+          }}
+          label={link}
+          onClick={toggleDrawer(false)}
+          key={link}
+        />
+    ))
+  );
+
   return (
     <AppBar sx={{ bgcolor: "white" }}>
       <Toolbar>
-        <Link to="/" >
-        <ModeOfTravelIcon sx={{ color: "black" }} />
+        <Link to="/">
+          <ModeOfTravelIcon sx={{ color: "black" }} />
         </Link>
-        <Link to="/" >
         <Typography
           variant="h6"
           component="div"
           sx={{ flexGrow: 1, color: "black", ml: 3 }}
         >
-         SyntaxSeeker Travel Diary
+          <Link to="/" style={{ color: "black", textDecoration: "none" }}>
+            SyntaxSeeker Travel Diary
+          </Link>
         </Typography>
-        </Link>
-        <Tabs
-          value={value}
-          onChange={(e, val) => setValue(val)}
-          sx={{ ml: "auto", textDecoration: "none" }}
+        <Hidden smUp>
+          <IconButton
+            edge="end"
+            color="inherit"
+            aria-label="menu"
+            sx={{ ml: 2 }}
+            onClick={toggleDrawer(true)}
+          >
+            <MenuIcon sx={{ color: "black" }} />
+          </IconButton>
+        </Hidden>
+        <Hidden smDown>
+          <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+            {isLoggedIn ? list(loggedInLinks) : list(linksArr)}
+          </Box>
+        </Hidden>
+        <Drawer
+          anchor="right"
+          open={drawerOpen}
+          onClose={toggleDrawer(false)}
         >
-          {isLoggedIn
-            ? loggedInLinks.map((link) => (
-                <Tab
-                  LinkComponent={Link}
-                  to={`/${link === "home" ? "" : link}`}
-                  sx={{
-                    textDecoration: "none",
-                    ":hover": {
-                      textDecoration: "underline",
-                      textUnderlineOffset: "18px",
-                    },
-                  }}
-                  key={link}
-                  label={link}
-                />
-              ))
-            : linksArr.map((link) => (
-                <Tab
-                  LinkComponent={Link}
-                  to={`/${link === "home" ? "" : link}`}
-                  sx={{
-                    textDecoration: "none",
-                    ":hover": {
-                      textDecoration: "underline",
-                      textUnderlineOffset: "18px",
-                    },
-                  }}
-                  key={link}
-                  label={link}
-                />
-              ))}
-        </Tabs>
+          {isLoggedIn ? list(loggedInLinks) : list(linksArr)}
+        </Drawer>
       </Toolbar>
     </AppBar>
   );

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./Header.css";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { RESET, logout } from "../../redux/features/auth/authSlice";
