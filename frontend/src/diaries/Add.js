@@ -120,7 +120,7 @@ const Add = () => {
       display="flex"
       flexDirection={"column"}
       width="100%"
-      height="110vh"
+      height="100%"
       sx={{ backgroundColor: "white" }}
     >
       <Box display="flex" margin="auto" paddingTop={10}>
