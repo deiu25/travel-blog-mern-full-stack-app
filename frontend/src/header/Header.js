@@ -15,7 +15,10 @@ const Header = () => {
   return (
     <AppBar sx={{ bgcolor: "white" }}>
       <Toolbar>
+        <Link to="/" >
         <ModeOfTravelIcon sx={{ color: "black" }} />
+        </Link>
+        <Link to="/" >
         <Typography
           variant="h6"
           component="div"
@@ -23,6 +26,7 @@ const Header = () => {
         >
          SyntaxSeeker Travel Diary
         </Typography>
+        </Link>
         <Tabs
           value={value}
           onChange={(e, val) => setValue(val)}

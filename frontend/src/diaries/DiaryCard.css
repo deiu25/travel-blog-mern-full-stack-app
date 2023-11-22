@@ -152,6 +152,19 @@
   }
 }
 
+@media screen and (max-width: 768px) {
+  .animated {
+    top: auto;
+    left: auto;
+    height: auto;
+    align-items: initial;
+    justify-content: initial;
+    opacity: 1;
+    z-index: auto;
+    flex-direction: row;
+  }
+}
+
 /* Diary Item */
 
 .DD-slider {
