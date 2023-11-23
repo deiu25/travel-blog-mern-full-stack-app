@@ -3,6 +3,10 @@ import { useParams } from "react-router-dom";
 import { getPostDetails } from "../../api-helpers/helpers";
 import { Typography, CircularProgress } from "@mui/material";
 
+import { Carousel } from "react-responsive-carousel";
+import MediaQuery from "react-responsive";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+
 const DiaryDetail = () => {
   const { id } = useParams();
   const [post, setPost] = useState(null);
@@ -61,17 +65,41 @@ const DiaryDetail = () => {
             <Typography variant="body1">{post.description}</Typography>
           </div>
         </div>
-        <div className="DD-right">
-          <div>
-            {images.length > 0 ? (
-              <img src={images[imageIndex]?.url} alt={`Slide ${imageIndex}`} />
-            ) : (
+        <MediaQuery maxDeviceWidth={700}>
+          <Carousel showArrows={false} showStatus={true} showIndicators={false} showThumbs={false} swipeable={true} autoPlay={false} infiniteLoop={true}>
+            {images.map((image, index) => (
+              <div key={index} className="DD-image">
+                <img src={image.url} className="DD-image" alt={`Slide ${index}`} />
+              </div>
+            ))}
+          </Carousel>
+        </MediaQuery>
+
+        <MediaQuery minDeviceWidth={701}>
+          <div className="DD-controls">
+            <div className="DD-up">
+              <i onClick={handleNext} className="fa fa-chevron-up"></i>
+            </div>
+            <div className="DD-down">
+              <i onClick={handlePrev} className="fa fa-chevron-down"></i>
+            </div>
+          </div>
+
+          <div className="DD-right">
+            <div>
+              {images.length > 0 ? (
+                <img
+                  src={images[imageIndex]?.url}
+                  alt={`Slide ${imageIndex}`}
+                />
+              ) : (
                 <Typography variant="body1">
                   No images available for this post.
                 </Typography>
               )}
+            </div>
           </div>
-        </div>
+        </MediaQuery>
       </div>
     </div>
   );

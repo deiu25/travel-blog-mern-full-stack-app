@@ -1,3 +1,5 @@
+/* Diaries */
+
 .card {
   position: relative;
   width: 360px;
@@ -171,10 +173,19 @@
     opacity: 1;
     z-index: auto;
     flex-direction: row;
+  }
 
-}
-}
+  .MuiPagination-root {
+    background-color: #fff;
+  }
 
+  .MuiPagination-ul {
+    width: 100%;
+    background-color: #fff;
+    justify-content: space-evenly;
+    border: none;
+  }
+}
 
 /* Diary Item */
 
@@ -259,7 +270,7 @@
 }
 
 .DD-slider .DD-wrapper .DD-left > div h2 {
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 25px;
   background: -webkit-linear-gradient(90deg, #0cbaba, #380036);
@@ -281,6 +292,121 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+@media (max-width: 700px) {
+  .DD-slider {
+    height: auto;
+  }
+
+  .DD-slider .DD-wrapper {
+    flex-direction: column;
+    overflow: visible;
+    height: auto;
+  }
+
+  .DD-slider .DD-wrapper .DD-left,
+  .DD-slider .DD-wrapper .DD-right {
+    width: 100%;
+    overflow: visible;
+    height: auto;
+  }
+
+  .DD-slider .DD-wrapper .DD-right {
+    order: 1;
+  }
+
+  .DD-slider .DD-wrapper .DD-left {
+    order: 2;
+  }
+
+  .DD-slider .DD-controls {
+    display: none;
+  }
+
+  .carousel .thumb {
+    background-color: #fff;
+  }
+
+  .thumbs-wrapper ul {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+  }
+
+  .thumbs-wrapper li {
+    flex: 0 0 auto;
+    height: 100px;
+    margin: 0 10px 0 0;
+    list-style: none;
+    cursor: pointer;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+  }
+
+  .thumbs-wrapper li img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+
+  .DD-slider .DD-wrapper .DD-left > div h2 {
+    font-size: 2rem;
+  }
+
+  .carousel .slide img {
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .DD-slider .DD-wrapper .DD-left > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 0px 90px 0px 40px;
+    overflow: scroll;
+    padding-bottom: 20vh;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .DD-slider .DD-wrapper .DD-left > div h2 {
+    font-size: 1.6rem;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .DD-slider .DD-wrapper .DD-left > div h2 {
+    font-size: 1.2rem;
+  }
+
+  .carousel .slide img {
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .DD-slider .DD-wrapper .DD-left > div {
+    padding: 0 20px 0 20px;
+  }
+}
+
+@media screen and (min-width: 300px) {
+  .DD-image {
+    height: 80vh;
+    object-fit: contain;
+  }
+}
+
+@media screen and (min-width: 200px) {
+  .DD-image {
+    height: 80vh;
+    object-fit: contain;
+  }
 }
 
 /* Diary Update */
@@ -310,5 +436,3 @@
   align-items: center;
   cursor: pointer;
 }
-
-/* Add.js */
