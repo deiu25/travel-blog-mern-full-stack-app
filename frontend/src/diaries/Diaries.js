@@ -14,7 +14,7 @@ const Diaries = () => {
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
-  const postsPerPage = isSmallScreen ? 3 : 6;
+  const postsPerPage = isSmallScreen ? 1 : 6;
 
   useEffect(() => {
     getAllPosts()
