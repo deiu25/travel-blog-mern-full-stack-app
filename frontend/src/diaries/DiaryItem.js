@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import { deletePost } from "../api-helpers/helpers";
 import {
   Alert,
@@ -18,9 +21,7 @@ import TitleIcon from "@mui/icons-material/Title";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { Carousel } from 'react-responsive-carousel';
 
-import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "./DiaryCard.css";
 import { Link } from "react-router-dom";
 
@@ -56,17 +57,26 @@ const DiaryItem = ({ title, images, location, id, user, onPostDelete }) => {
     setConfirmOpen(false);
   };
 
+  const settings = {
+    dots: false,
+    lazyLoad: 'ondemand',
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
+
   return (
 <div className="card">
-      <div className="imgBx">
-        <Carousel showIndicators={false} showThumbs={false} infiniteLoop={true}>
-          {images.map((img, index) => (
-            <div key={index}>
-              <img src={img.url} alt="images" />
-            </div>
-          ))}
-        </Carousel>
+<div className="imgBx">
+  <Slider {...settings}>
+    {images.map((img, index) => (
+      <div key={index}>
+        <img src={img.url} alt="images" />
       </div>
+    ))}
+  </Slider>
+</div>
 
       <div className="content">
         <span className="price">

@@ -6,7 +6,6 @@ import DiaryItem from "./DiaryItem";
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-
 const Diaries = () => {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -14,7 +13,7 @@ const Diaries = () => {
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(1);
-  const postsPerPage = isSmallScreen ? 1 : 6;
+  const postsPerPage = isSmallScreen ? 10 : 10;
 
   useEffect(() => {
     getAllPosts()
