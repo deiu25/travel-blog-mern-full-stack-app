@@ -17,10 +17,10 @@ import {
 } from "@mui/material";
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import TitleIcon from "@mui/icons-material/Title"; 
+import TitleIcon from "@mui/icons-material/Title";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-import TravelExploreIcon from '@mui/icons-material/TravelExplore';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import TravelExploreIcon from "@mui/icons-material/TravelExplore";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 import "./DiaryCard.css";
 import { Link } from "react-router-dom";
@@ -59,38 +59,41 @@ const DiaryItem = ({ title, images, location, id, user, onPostDelete }) => {
 
   const settings = {
     dots: false,
-    lazyLoad: 'ondemand',
+    lazyLoad: "ondemand",
     infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    arrows: false,
   };
 
   return (
-<div className="card">
-<div className="imgBx">
-  <Slider {...settings}>
-    {images.map((img, index) => (
-      <div key={index}>
-        <img src={img.url} alt="images" />
+    <div className="card">
+      <div className="imgBx">
+        <Slider {...settings}>
+          {images.map((img, index) => (
+            <div key={index}>
+              <img src={img.url} alt="images" />
+            </div>
+          ))}
+        </Slider>
       </div>
-    ))}
-  </Slider>
-</div>
 
       <div className="content">
         <span className="price">
-          <Link to={`/post/${id}`}><TravelExploreIcon fontSize="medium" /></Link>
+          <Link to={`/post/${id}`}>
+            <TravelExploreIcon fontSize="medium" />
+          </Link>
         </span>
         <ul className="text diary-card-ul">
-        <li>
-            <TitleIcon /> <b>{title}</b>  
+          <li>
+            <TitleIcon /> <b>{title}</b>
           </li>
           <li>
-            <LocationOnIcon /> {location}  
+            <LocationOnIcon /> {location}
           </li>
           <li>
-          <AccountCircleIcon /> {user.firstname}
+            <AccountCircleIcon /> {user.firstname}
           </li>
           <li className="right-align">
             <CardActions>

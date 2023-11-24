@@ -2,14 +2,28 @@ import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import { getAllPosts } from "../api-helpers/helpers";
 import DiaryItem from "./DiaryItem";
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 const Diaries = () => {
-  const [posts, setPosts] = useState();
+  const [posts, setPosts] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
+  const [page, setPage] = useState(1);
+
+  const loadPosts = () => {
+    getAllPosts(page)
+      .then((data) => {
+        if (data?.posts.length > 0) {
+          setPosts((prevPosts) => [...prevPosts, ...data.posts]);
+          setPage((prevPage) => prevPage + 1);
+        } else {
+          setHasMore(false);
+        }
+      })
+      .catch((err) => console.log(err));
+  }
 
   useEffect(() => {
-    getAllPosts()
-      .then((data) => setPosts(data?.posts))
-      .catch((err) => console.log(err));
+    loadPosts();
   }, []);
 
   const handlePostDelete = (deletedPostId) => {
@@ -27,8 +41,15 @@ const Diaries = () => {
       paddingBottom={10}
       sx={{ backgroundColor: "white" }}
     >
-      {posts &&
-        posts.map((item, index) => (
+      <InfiniteScroll
+        dataLength={posts.length}
+        next={loadPosts}
+        hasMore={hasMore}
+        loader={<h4>Loading...</h4>}
+       // endMessage={<p style={{ textAlign: 'center' }}>No more posts to show</p>}
+        style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }} // Aici sunt aplicate stilurile
+      >
+        {posts.map((item, index) => (
           <DiaryItem
             date={new Date(`${item.date}`).toLocaleDateString()}
             description={item.description}
@@ -41,6 +62,7 @@ const Diaries = () => {
             onPostDelete={handlePostDelete}
           />
         ))}
+      </InfiniteScroll>
     </Box>
   );
 };

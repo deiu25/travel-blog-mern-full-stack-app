@@ -52,7 +52,11 @@ export const addPost = async (req, res) => {
 export const getAllPosts = async (req, res) => {
   let posts;
   try {
-    posts = await Post.find().populate("user");
+    const page = Number(req.query.page) || 1;
+    const limit = 3;
+    const skip = (page - 1) * limit;
+
+    posts = await Post.find().populate("user").skip(skip).limit(limit);
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: "Unexpected Error Occurred" });

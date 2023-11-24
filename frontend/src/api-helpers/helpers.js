@@ -22,8 +22,13 @@ export const addPost = async (formData) => {
   }
 };
 
-export const getAllPosts = async () => {
-  const res = await api.get("/posts");
+export const getAllPosts = async (page = 1) => {
+  const res = await api.get("/posts", {
+    params: {
+      page,
+    },
+  });
+
   if (res.status !== 200) {
     return console.log("Some Error Occurred");
   }

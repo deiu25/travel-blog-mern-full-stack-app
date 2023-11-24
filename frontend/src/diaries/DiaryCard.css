@@ -134,8 +134,10 @@
   margin-left: auto;
 }
 
-.carousel .control-prev.control-arrow {
-  height: 72%;
+@media screen and (max-width: 823px) {
+  .infinite-scroll-component {
+    display: block !important;
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -152,38 +154,13 @@
     opacity: 1;
     z-index: auto;
   }
+}
 
-  .animated {
-    top: auto;
-    left: auto;
-    height: auto;
-    align-items: initial;
-    justify-content: initial;
-    opacity: 1;
-    z-index: auto;
-    flex-direction: row;
-  }
-
-  div.slider-wrapper.axis-horizontal ul {
-    top: auto;
-    left: auto;
-    height: auto;
-    align-items: initial;
-    justify-content: initial;
-    opacity: 1;
-    z-index: auto;
-    flex-direction: row;
-  }
-
-  .MuiPagination-root {
-    background-color: #fff;
-  }
-
-  .MuiPagination-ul {
-    width: 100%;
-    background-color: #fff;
-    justify-content: space-evenly;
-    border: none;
+@media screen and (max-width: 375px) {
+  .card {
+    position: relative;
+    max-width: 240px;
+    margin: 3vh 2vh;
   }
 }
 
@@ -392,6 +369,10 @@
 
   .DD-slider .DD-wrapper .DD-left > div {
     padding: 0 20px 0 20px;
+  }
+
+  body {
+    background-color: #fff;
   }
 }
 
