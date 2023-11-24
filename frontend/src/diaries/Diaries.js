@@ -1,5 +1,5 @@
 import { Box } from "@mui/system";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { getAllPosts } from "../api-helpers/helpers";
 import DiaryItem from "./DiaryItem";
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -9,7 +9,7 @@ const Diaries = () => {
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
 
-  const loadPosts = () => {
+  const loadPosts = useCallback(() => {
     getAllPosts(page)
       .then((data) => {
         if (data?.posts.length > 0) {
@@ -20,11 +20,11 @@ const Diaries = () => {
         }
       })
       .catch((err) => console.log(err));
-  }
-
+  }, [page]);
+  
   useEffect(() => {
     loadPosts();
-  }, []);
+  }, [loadPosts]);
 
   const handlePostDelete = (deletedPostId) => {
     setPosts(posts.filter((post) => post._id !== deletedPostId));
@@ -47,7 +47,7 @@ const Diaries = () => {
         hasMore={hasMore}
         loader={<h4>Loading...</h4>}
        // endMessage={<p style={{ textAlign: 'center' }}>No more posts to show</p>}
-        style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }} // Aici sunt aplicate stilurile
+        style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}
       >
         {posts.map((item, index) => (
           <DiaryItem

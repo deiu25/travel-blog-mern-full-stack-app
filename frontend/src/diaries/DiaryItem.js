@@ -29,6 +29,14 @@ const DiaryItem = ({ title, images, location, id, user, onPostDelete }) => {
   const [open, setOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
 
+  const truncateTitle = (title, maxLength) => {
+    if (title.length > maxLength) {
+      return title.substring(0, maxLength - 3) + "...";
+    } else {
+      return title;
+    }
+  };
+
   const isLoogedInUser = () => {
     const userIdFromStorage = localStorage.getItem("userId");
 
@@ -87,7 +95,7 @@ const DiaryItem = ({ title, images, location, id, user, onPostDelete }) => {
         </span>
         <ul className="text diary-card-ul">
           <li>
-            <TitleIcon /> <b>{title}</b>
+            <TitleIcon /> <b>{truncateTitle(title, 40)}</b>
           </li>
           <li>
             <LocationOnIcon /> {location}
