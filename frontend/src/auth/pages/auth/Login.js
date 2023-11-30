@@ -5,9 +5,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { Loader } from "../../components/loader/Loader";
 import { toast } from "react-toastify";
 import { validateEmail } from "../../redux/features/auth/authService";
-import {login, loginWithGoogle, RESET, sendLoginCode } from "../../redux/features/auth/authSlice";
+import {
+  login,
+  loginWithGoogle,
+  RESET,
+  sendLoginCode,
+} from "../../redux/features/auth/authSlice";
 import { GoogleLogin } from "@react-oauth/google";
-import './AuthStyle.css'
+import "./AuthStyle.css";
 
 const initialState = {
   email: "",
@@ -17,6 +22,18 @@ const initialState = {
 export const Login = () => {
   const [formData, setFormData] = useState(initialState);
   const { email, password } = formData;
+
+  const [windowSize, setWindowSize] = useState(window.innerWidth);
+  const handleResize = () => {
+    setWindowSize(window.innerWidth);
+  };
+  useEffect(() => {
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -46,8 +63,8 @@ export const Login = () => {
     };
 
     const actionResult = await dispatch(login(userData));
-    const isSignup = actionResult.payload.isSignup; 
-    const data = actionResult.payload.user; 
+    const isSignup = actionResult.payload.isSignup;
+    const data = actionResult.payload.user;
 
     if (isSignup) {
       localStorage.setItem("userId", data._id);
@@ -62,7 +79,7 @@ export const Login = () => {
     }
 
     if (isError && twoFactor) {
-      dispatch(sendLoginCode(email))
+      dispatch(sendLoginCode(email));
       navigate(`/loginWithCode/${email}`);
     }
 
@@ -70,14 +87,16 @@ export const Login = () => {
   }, [isSuccess, isLoggedIn, isError, twoFactor, navigate, dispatch, email]);
 
   const googleLogin = async (credentialResponse) => {
-    await dispatch(loginWithGoogle({userToken: credentialResponse.credential }))
+    await dispatch(
+      loginWithGoogle({ userToken: credentialResponse.credential })
+    );
   };
 
   return (
     <div className="card-front">
-      {isLoading && <Loader />}
       <div className="center-wrap">
-        <div className="section text-center">
+        {isLoading && <Loader />}
+        <div className="section centered-text">
           <svg
             fill="none"
             stroke="currentColor"
@@ -95,17 +114,21 @@ export const Login = () => {
             ></path>
           </svg>
           <h4 className="authTitle">Log In</h4>
-          <div className="flex-center">
-          <GoogleLogin
-              onSuccess={googleLogin}
-              onError={() => {
-                toast.error("Login Failed");
-              }}
-            />
-          </div>
-          <br />
-          <p className="or">or</p>
-          <form onSubmit={loginUser}>
+          <form className="form-group" onSubmit={loginUser}>
+            <div className="form-group google-button">
+              <div className="flex-center">
+                <GoogleLogin
+                  onSuccess={googleLogin}
+                  onError={() => {
+                    toast.error("Login Failed");
+                  }}
+                  type={windowSize < 360 ? "icon" : "standard"}
+                  shape={windowSize < 360 ? "circle" : "rect"}
+                />
+              </div>
+              <br />
+              <p className="or">or</p>
+            </div>
             <div className="form-group">
               <input
                 type="email"
@@ -120,19 +143,18 @@ export const Login = () => {
               />
               <i className="input-icon uil uil-at"></i>
             </div>
-            <PasswordInput
-              className="form-style margin-top"
-              id="loginPassword"
-              autoComplete="off"
-              placeholder="Your Password"
-              name="password"
-              value={password}
-              onChange={handleInputChange}
-            />
-            <button
-              type="submit"
-              className="btn fullWidth margin-top-3rem"
-            >
+            <div className="form-group">
+              <PasswordInput
+                className="form-style margin-top"
+                id="loginPassword"
+                autoComplete="off"
+                placeholder="Your Password"
+                name="password"
+                value={password}
+                onChange={handleInputChange}
+              />
+            </div>
+            <button type="submit" className="btn fullWidth margin-top-3rem">
               Login
             </button>
           </form>

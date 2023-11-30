@@ -8,7 +8,6 @@ import { Provider } from "react-redux";
 import { store } from './auth/redux/store';
 
 axios.defaults.baseURL = "http://localhost:5000";
-//axios.defaults.baseURL = "http://backend.dinhub.ro";
 axios.defaults.withCredentials = true;
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

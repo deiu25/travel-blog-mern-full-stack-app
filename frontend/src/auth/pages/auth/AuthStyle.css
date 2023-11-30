@@ -192,7 +192,7 @@ h6 span {
   width: 100%;
   height: 100%;
   background-color: #2a2b38;
-  background-image: url('../../../../public/bg.svg');
+  background-image: url("../../../../public/bg.svg");
   background-position: bottom center;
   background-repeat: no-repeat;
   background-size: 300%;
@@ -250,8 +250,6 @@ h6 span {
 
 .form-group-flex {
   display: flex;
-  justify-content: space-between;
-  gap: 1rem;
 }
 
 .form-group {
@@ -454,6 +452,12 @@ h6 span {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
+}
+
+#gsi_527018_627328 {
+  width: 100%;
+  max-width: auto;
 }
 
 .authTitle {
@@ -535,14 +539,27 @@ h6 span {
   cursor: pointer;
 }
 
+@media (max-width: 360px) {
+  .google-sign-in-button iframe {
+    height: 30px;
+    width: 100px;
+  }
+}
+
 @media (max-width: 450px) {
   .name-group {
     display: flex !important;
     flex-direction: column !important;
-    gap: 1rem;
   }
+
   .card-3d-wrap {
     height: 620px;
+  }
+
+  .card-front,
+  .card-back {
+    width: 100%;
+    height: 105%;
   }
 }
 
@@ -562,6 +579,10 @@ h6 span {
   .custom-container {
     max-width: 720px;
   }
+
+  .haAclf {
+    width: 50%!important;
+  }
 }
 
 @media (min-width: 992px) {
@@ -573,6 +594,10 @@ h6 span {
 @media (min-width: 1200px) {
   .custom-container {
     max-width: 1140px;
+  }
+
+  .haAclf {
+    width: 30%!important;
   }
 }
 

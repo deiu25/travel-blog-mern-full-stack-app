@@ -29,7 +29,7 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something broke!');
 });
 app.use((req, res, next) => {
-  console.log(`${req.method} request for '${req.url}'`);
+  //console.log(`${req.method} request for '${req.url}'`);
   next();
 });
 
