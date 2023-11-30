@@ -11,6 +11,7 @@ const initialState = {
   isSuccess: false,
   isLoading: false,
   message: "",
+  isEmailVerified: false,
   verifiedUsers: 0,
   suspendedUsers: 0,
 };
@@ -318,6 +319,7 @@ const authSlice = createSlice({
       state.isSuccess = false;
       state.isLoading = false;
       state.message = "";
+      state.isEmailVerified = false;
     },
     CALC_VERIFIED_USER(state, action) {
       const array = [];
@@ -348,6 +350,7 @@ const authSlice = createSlice({
       state.suspendedUsers = count;
     },
   },
+
   extraReducers: (builder) => {
     builder
       // Register User
@@ -377,6 +380,7 @@ const authSlice = createSlice({
         state.isSuccess = true;
         state.isLoggedIn = true;
         state.user = action.payload;
+        state.isEmailVerified = action.payload.isVerified;
         toast.success("Login Successful");
 
         // Store user ID in local storage.

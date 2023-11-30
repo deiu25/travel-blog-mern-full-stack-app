@@ -57,7 +57,6 @@ export const SignUp = () => {
       email,
       password,
     };
-    //console.log(userData);
 
     await dispatch(register(userData));
     await dispatch(sendVerificationEmail());

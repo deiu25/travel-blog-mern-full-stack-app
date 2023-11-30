@@ -25,14 +25,14 @@ export const PageMenu = () => {
       </label>
       <div className="navList">
         <div className="navLink hover-effect">
-          <NavLink to="/profile" activeClassName="active">Profile</NavLink>
+          <NavLink to="/profile" activeclassname="active">Profile</NavLink>
         </div>
         <div className="navLink hover-effect">
-          <NavLink to="/changePassword" activeClassName="active">Change Password</NavLink>
+          <NavLink to="/changePassword" activeclassname="active">Change Password</NavLink>
         </div>
         <AdminAuthorLink>
           <div className="navLink hover-effect">
-            <NavLink to="/users" activeClassName="active">Users</NavLink>
+            <NavLink to="/users" activeclassname="active">Users</NavLink>
           </div>
         </AdminAuthorLink>
       </div>

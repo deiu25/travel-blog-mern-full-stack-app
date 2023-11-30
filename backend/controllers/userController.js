@@ -314,6 +314,23 @@ const getUsers = asyncHandler(async (req, res) => {
   res.status(200).json(users);
 });
 
+//isVerified
+const isVerified = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+
+  if (user.isVerified) {
+    res.status(200).json({ message: "User is verified" });
+  } else {
+    res.status(400);
+    throw new Error("User is not verified");
+  }
+});
+
 // Get Login Status
 const loginStatus = asyncHandler(async (req, res) => {
   const token = req.cookies.token;
@@ -833,6 +850,7 @@ export {
   updateUser,
   deleteUser,
   getUsers,
+  isVerified,
   loginStatus,
   upgradeUser,
   sendAutomatedEmail,

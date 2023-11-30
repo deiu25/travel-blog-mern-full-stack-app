@@ -96,6 +96,13 @@ const getUsers = async () => {
   return response.data;
 };
 
+//isVerified: 
+const isVerified = async () => {
+  const response = await axios.get(API_URL + "isVerified");
+
+  return response.data;
+};
+
 // Delete User
 const deleteUser = async (id) => {
   const response = await axios.delete(API_URL + id);
@@ -149,6 +156,7 @@ const authService = {
   forgotPassword,
   resetPassword,
   getUsers,
+  isVerified,
   deleteUser,
   upgradeUser,
   sendLoginCode,

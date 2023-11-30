@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 
 const Add = () => {
   const navigate = useNavigate();
-  const { isLoggedIn } = useSelector((state) => state.auth);
+  const { isLoggedIn, isEmailVerified } = useSelector((state) => state.auth);
   const [inputs, setInputs] = useState({
     title: "",
     description: "",
@@ -52,9 +52,12 @@ const Add = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!isLoggedIn) {
-      setErrors({ form: "You must be logged in to post." });
+  
+    console.log(`Is user logged in? ${isLoggedIn}`);
+    console.log(`Is user email verified? ${isEmailVerified}`);
+  
+    if (!isLoggedIn || !isEmailVerified) {
+      setErrors({ form: "You must be logged in and have a verified email to post." });
       return;
     }
 

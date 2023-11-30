@@ -6,7 +6,6 @@ import { keyframes } from "@mui/system";
 
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { selectIsLoggedIn } from "../auth/redux/features/auth/authSlice";
 
 const Home = () => {
   const zoomAnimation = keyframes`
@@ -22,15 +21,15 @@ const Home = () => {
   `;
 
   const navigate = useNavigate();
-  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const { isLoggedIn, isEmailVerified } = useSelector((state) => state.auth);
 
   const handleShareStoryClick = () => {
-    if (isLoggedIn) {
-      navigate("/add");
-    } else {
+    if (!isLoggedIn || !isEmailVerified) {
       navigate("/auth");
+    } else {
+      navigate("/add");
     }
-  };
+  }
 
   return (
     <Box width="100%" height="100vh" position="relative">

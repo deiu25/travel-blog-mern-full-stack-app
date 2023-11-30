@@ -15,10 +15,11 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const linksArr = ["home", "diaries", "auth"];
-const loggedInLinks = ["home", "diaries", "add", "profile"];
+const loggedInLinks = ["home", "diaries", "profile"];
+const verifiedLinks = ["home", "diaries", "add", "profile"];
 
 const Header = () => {
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const { isLoggedIn, isEmailVerified } = useSelector((state) => state.auth);
 
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -80,7 +81,7 @@ const Header = () => {
         </Hidden>
         <Hidden smDown>
           <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-            {isLoggedIn ? list(loggedInLinks) : list(linksArr)}
+            {isLoggedIn ? (isEmailVerified ? list(verifiedLinks) : list(loggedInLinks)) : list(linksArr)}
           </Box>
         </Hidden>
         <Drawer
@@ -88,7 +89,7 @@ const Header = () => {
           open={drawerOpen}
           onClose={toggleDrawer(false)}
         >
-          {isLoggedIn ? list(loggedInLinks) : list(linksArr)}
+          {isLoggedIn ? (isEmailVerified ? list(verifiedLinks) : list(loggedInLinks)) : list(linksArr)}
         </Drawer>
       </Toolbar>
     </AppBar>
