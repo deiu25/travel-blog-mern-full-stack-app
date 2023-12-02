@@ -66,10 +66,24 @@ const DiaryDetail = () => {
           </div>
         </div>
         <MediaQuery maxDeviceWidth={700}>
-          <Carousel showArrows={false} showStatus={true} showIndicators={false} showThumbs={false} swipeable={true} autoPlay={false} infiniteLoop={true}>
+          <Carousel
+            transitionTime={1000}
+            showArrows={false}
+            showStatus={true}
+            showIndicators={false}
+            showThumbs={false}
+            emulateTouch
+            infiniteLoop
+            preventMovementUntilSwipeScrollTolerance={true}
+            swipeScrollTolerance={50}
+          >
             {images.map((image, index) => (
               <div key={index} className="DD-image">
-                <img src={image.url} className="DD-image" alt={`Slide ${index}`} />
+                <img
+                  src={image.url}
+                  className="DD-image"
+                  alt={`Slide ${index}`}
+                />
               </div>
             ))}
           </Carousel>

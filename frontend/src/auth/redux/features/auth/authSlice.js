@@ -11,7 +11,6 @@ const initialState = {
   isSuccess: false,
   isLoading: false,
   message: "",
-  isEmailVerified: false,
   verifiedUsers: 0,
   suspendedUsers: 0,
 };
@@ -319,8 +318,8 @@ const authSlice = createSlice({
       state.isSuccess = false;
       state.isLoading = false;
       state.message = "";
-      state.isEmailVerified = false;
     },
+
     CALC_VERIFIED_USER(state, action) {
       const array = [];
       state.users.map((user) => {
@@ -335,6 +334,7 @@ const authSlice = createSlice({
       });
       state.verifiedUsers = count;
     },
+
     CALC_SUSPENDED_USER(state, action) {
       const array = [];
       state.users.map((user) => {
@@ -380,12 +380,10 @@ const authSlice = createSlice({
         state.isSuccess = true;
         state.isLoggedIn = true;
         state.user = action.payload;
-        state.isEmailVerified = action.payload.isVerified;
         toast.success("Login Successful");
 
         // Store user ID in local storage.
         localStorage.setItem("userId", state.user._id);
-
         // Store token in local storage.
         localStorage.setItem("token", state.user.token);
       })
@@ -447,6 +445,7 @@ const authSlice = createSlice({
         state.isSuccess = true;
         state.isLoggedIn = true;
         state.user = action.payload;
+        state.isVerified = action.payload.isVerified;
 
         // Store user ID in local storage.
         localStorage.setItem("userId", state.user._id);

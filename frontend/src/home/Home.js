@@ -21,10 +21,10 @@ const Home = () => {
   `;
 
   const navigate = useNavigate();
-  const { isLoggedIn, isEmailVerified } = useSelector((state) => state.auth);
+  const { isLoggedIn, isVerified } = useSelector((state) => state.auth);
 
   const handleShareStoryClick = () => {
-    if (!isLoggedIn || !isEmailVerified) {
+    if (!isLoggedIn || !isVerified) {
       navigate("/auth");
     } else {
       navigate("/add");

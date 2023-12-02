@@ -7,7 +7,7 @@ import {
 } from "../middleware/authMiddleware.js";
 import {
   registerUser, loginUser, logoutUser, getUser, updateUser, deleteUser, getUsers, loginStatus, upgradeUser, sendAutomatedEmail, sendVerificationEmail,
-  verifyUser, forgotPassword, resetPassword, changePassword, sendLoginCode, loginWithCode, loginWithGoogle,
+  verifyUser, forgotPassword, resetPassword, changePassword, sendLoginCode, loginWithCode, loginWithGoogle
 } from "../controllers/userController.js";
 import { upload } from "../utils/cloudinaryConfig.js";
 

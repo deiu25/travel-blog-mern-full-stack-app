@@ -36,7 +36,7 @@ export const Profile = () => {
     bio: user?.bio || "",
     photo: user?.photo || "",
     role: user?.role || "",
-    isVerified: user?.isVerified || false,
+    isVerified: user?.isVerified || "",
   };
 
   const [profile, setProfile] = useState(initialState);
@@ -225,8 +225,9 @@ export const Profile = () => {
                 </p>
                 <p>{profile.email}</p>
                 <p>{profile.phone}</p>
+                <p>Status: {profile.isVerified ? "Verified" : "Not Verified"}</p>
                 <p>Role: {profile.role}</p>
-                <p>{profile.isVerified}</p>
+                
               </div>
             </div>
           </div>

@@ -19,7 +19,7 @@ const loggedInLinks = ["home", "diaries", "profile"];
 const verifiedLinks = ["home", "diaries", "add", "profile"];
 
 const Header = () => {
-  const { isLoggedIn, isEmailVerified } = useSelector((state) => state.auth);
+  const { isLoggedIn, isVerified } = useSelector((state) => state.auth);
 
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -81,7 +81,7 @@ const Header = () => {
         </Hidden>
         <Hidden smDown>
           <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-            {isLoggedIn ? (isEmailVerified ? list(verifiedLinks) : list(loggedInLinks)) : list(linksArr)}
+            {isLoggedIn ? (isVerified ? list(verifiedLinks) : list(loggedInLinks)) : list(linksArr)}
           </Box>
         </Hidden>
         <Drawer
@@ -89,7 +89,7 @@ const Header = () => {
           open={drawerOpen}
           onClose={toggleDrawer(false)}
         >
-          {isLoggedIn ? (isEmailVerified ? list(verifiedLinks) : list(loggedInLinks)) : list(linksArr)}
+          {isLoggedIn ? (isVerified ? list(verifiedLinks) : list(loggedInLinks)) : list(linksArr)}
         </Drawer>
       </Toolbar>
     </AppBar>
